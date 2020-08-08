@@ -1,32 +1,43 @@
-import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import * as React from "react";
+import { StyleSheet } from "react-native";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
+import EditScreenInfo from "../components/EditScreenInfo";
+import { Text, View } from "../components/Themed";
+import { useObserver, inject } from "mobx-react";
+import { Main } from "../store/store.mobx";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function TabOneScreen() {
+export default function TabOneScreen({ navigation }: any) {
+  const { restaurants } = React.useContext(Main);
+  console.log(restaurants.objects);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/TabOneScreen.tsx" />
+      {restaurants.objects.map((v, i) => {
+        return (
+          <TouchableOpacity
+            onPress={() => {
+              restaurants.setCurrent(v);
+              navigation.navigate("EditRestaurant");
+            }}
+            style={styles.restaurant}
+            key={i}
+          >
+            <Text>{v.name}</Text>
+          </TouchableOpacity>
+        );
+      })}
     </View>
   );
 }
-
+// export default inject("store")(observer(ImageList));
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+  restaurant: {
+    padding: 10,
+    borderBottomColor: "#aaa",
+    borderBottomWidth: 1,
   },
 });
