@@ -9,7 +9,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function TabOneScreen({ navigation }: any) {
   const { restaurants } = React.useContext(Main);
-  console.log(restaurants.objects);
 
   return (
     <View style={styles.container}>
