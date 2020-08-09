@@ -3,6 +3,8 @@ import { Category } from "./models/category.model";
 import { createContext } from "react";
 
 Service.setBaseUrl("http://localhost:8080");
+Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com/");
+
 class MainStore {
   categories = new Store(Category);
 
