@@ -6,16 +6,16 @@ import { Main } from "../store/store.mobx";
 import { TextInput } from "react-native-gesture-handler";
 
 export default function EditRestaurant({ navigation }: any) {
-  const { restaurants } = React.useContext(Main);
-  const [name, setName] = React.useState(restaurants.current.name);
+  const { categories } = React.useContext(Main);
+  const [name, setName] = React.useState(categories.current.name);
   return (
     <View style={styles.container}>
       <TextInput onChangeText={(text) => setName(text)} value={name} />
       <Button
         onPress={async () => {
-          restaurants.current.name = name;
-          const d = await restaurants.saveCurrent();
-          restaurants.objects = [d];
+          categories.current.name = name;
+          const d = await categories.saveCurrent();
+          categories.objects = [d];
 
           navigation.navigate("TabOne");
         }}

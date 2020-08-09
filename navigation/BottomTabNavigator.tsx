@@ -72,7 +72,16 @@ function TabOneNavigator() {
       <TabOneStack.Screen
         name="TabOneScreen"
         component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+        options={{
+          title: "McDonalds",
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+          headerTintColor: "pink",
+        }}
       />
     </TabOneStack.Navigator>
   );
@@ -98,9 +107,9 @@ function EditRestaurantNavigator() {
   return (
     <EditRestaurantStack.Navigator>
       <EditRestaurantStack.Screen
-        name="EditRestaurant"
+        name="EditRestaurantScreen"
         component={EditRestaurant}
-        options={{ headerTitle: "Tab Two Title" }}
+        options={({ route }) => ({ title: route?.params?.name })}
       />
     </EditRestaurantStack.Navigator>
   );

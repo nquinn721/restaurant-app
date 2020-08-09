@@ -7,8 +7,7 @@ import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { Service } from "mobx-store-model";
 
-// Service.setBaseUrl("http://localhost:8080");
-Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com");
+// Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com");
 
 export default function App() {
   const isLoadingComplete = useCachedResources();

@@ -6,25 +6,28 @@ import { Text, View } from "../components/Themed";
 import { useObserver, inject } from "mobx-react";
 import { Main } from "../store/store.mobx";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { ListItem } from "react-native-elements";
 
 export default function TabOneScreen({ navigation }: any) {
-  const { restaurants } = React.useContext(Main);
+  const { categories } = React.useContext(Main);
+  console.log(categories);
 
   return (
     <View style={styles.container}>
-      {restaurants.objects.map((v, i) => {
-        return (
-          <TouchableOpacity
-            onPress={() => {
-              restaurants.setCurrent(v);
-              navigation.navigate("EditRestaurant");
-            }}
-            style={styles.restaurant}
-            key={i}
-          >
-            <Text>{v.name}</Text>
-          </TouchableOpacity>
-        );
+      {categories.objects.map((v, i) => {
+        return <ListItem key={i} title={v.name} bottomDivider chevron />;
+        // return (
+        //   <TouchableOpacity
+        //     onPress={() => {
+        //       categories.setCurrent(v);
+        //       navigation.navigate("EditRestaurant");
+        //     }}
+        //     style={styles.restaurant}
+        //     key={i}
+        //   >
+        //     <Text>{v.name}</Text>
+        //   </TouchableOpacity>
+        // );
       })}
     </View>
   );

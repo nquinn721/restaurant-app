@@ -1,17 +1,20 @@
-import { Store } from "mobx-store-model";
-import { Restaurant } from "./models/restaurant.model";
+import { Store, Service } from "mobx-store-model";
+import { Category } from "./models/category.model";
 import { createContext } from "react";
 
+Service.setBaseUrl("http://localhost:8080");
 class MainStore {
-  restaurants = new Store(Restaurant);
+  categories = new Store(Category);
 
   constructor() {
     this.getData();
   }
 
   async getData() {
-    await this.restaurants.initLoad();
-    console.log(this.restaurants.objects);
+    console.log(Service.baseUrl);
+
+    await this.categories.initLoad();
+    console.log(this.categories.objects);
   }
 }
 
