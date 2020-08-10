@@ -5,15 +5,14 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
-import EditRestaurant from "../screens/EditRestaurant";
+import Home from "../screens/Home";
+import ItemList from "../screens/ItemList";
 import {
   BottomTabParamList,
-  TabOneParamList,
-  TabTwoParamList,
+  HomeParamList,
   EditRestaurantList,
 } from "../types";
+import Map from "../screens/Map";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -22,7 +21,7 @@ export default function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Home"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
@@ -35,20 +34,11 @@ export default function BottomTabNavigator() {
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="EditRestaurant"
+        name="Locations"
         component={EditRestaurantNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="ios-map" color={color} />
           ),
         }}
       />
@@ -64,14 +54,14 @@ function TabBarIcon(props: { name: string; color: string }) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
+const HomeStack = createStackNavigator<HomeParamList>();
 
 function TabOneNavigator() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
         options={{
           title: "McDonalds",
           headerStyle: {
@@ -83,21 +73,20 @@ function TabOneNavigator() {
           headerTintColor: "pink",
         }}
       />
-    </TabOneStack.Navigator>
-  );
-}
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: "Tab Two Title" }}
+      <HomeStack.Screen
+        name="ItemList"
+        component={ItemList}
+        options={({ route }) => ({
+          title: route?.params?.item?.name,
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        })}
       />
-    </TabTwoStack.Navigator>
+    </HomeStack.Navigator>
   );
 }
 
@@ -108,8 +97,16 @@ function EditRestaurantNavigator() {
     <EditRestaurantStack.Navigator>
       <EditRestaurantStack.Screen
         name="EditRestaurantScreen"
-        component={EditRestaurant}
-        options={({ route }) => ({ title: route?.params?.name })}
+        component={Map}
+        options={({ route }) => ({
+          title: route?.params?.name,
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        })}
       />
     </EditRestaurantStack.Navigator>
   );
