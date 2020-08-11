@@ -1,25 +1,16 @@
 import React, { useState } from "react";
 import MapView from "react-native-maps";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { SearchBar, Button, Icon } from "react-native-elements";
-import { Main } from "../store/store.mobx";
+import { Main } from "../store/Store.mobx";
 
 export default function Map() {
   const { locations } = React.useContext(Main);
   const lat = 40.0339499;
   const long = -83.1125029;
-  const [locs, setLoc] = React.useState([]);
 
-  async function getData() {
-    await locations.initLoad();
-    setLoc(locations?.objects);
-  }
-  React.useEffect(() => {
-    getData();
-  }, []);
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>select a location</Text>
       <View style={styles.mapStyle}>
         <SearchBar
           placeholder="City, State or Zip Code"
@@ -54,49 +45,51 @@ export default function Map() {
           }}
         />
       </View>
-      {locs.map((v, i) => (
-        <View
-          style={{ padding: 10, display: "flex", flexDirection: "row" }}
-          key={i}
-        >
-          <View style={{ flexGrow: 2 }}>
-            <Text style={{ fontWeight: "600" }}>{v.name}</Text>
-            <Text>{v.address1}</Text>
-            <Text>{v.address2}</Text>
-            <Text>{v.phone}</Text>
+      <ScrollView>
+        {locations.objects.map((v, i) => (
+          <View
+            style={{ padding: 10, display: "flex", flexDirection: "row" }}
+            key={i}
+          >
+            <View style={{ flexGrow: 2 }}>
+              <Text style={{ fontWeight: "600" }}>{v.name}</Text>
+              <Text>{v.address1}</Text>
+              <Text>{v.address2}</Text>
+              <Text>{v.phone}</Text>
+            </View>
+            <View>
+              <Button
+                containerStyle={styles.button}
+                icon={
+                  <Icon
+                    name="arrow-right"
+                    type="font-awesome"
+                    color="white"
+                    style={{ marginRight: 10 }}
+                    size={15}
+                  />
+                }
+                raised
+                title="Delivery"
+              />
+              <Button
+                containerStyle={styles.button}
+                icon={
+                  <Icon
+                    name="arrow-right"
+                    type="font-awesome"
+                    color="white"
+                    style={{ marginRight: 10 }}
+                    size={15}
+                  />
+                }
+                raised
+                title="Pickup"
+              />
+            </View>
           </View>
-          <View>
-            <Button
-              containerStyle={styles.button}
-              icon={
-                <Icon
-                  name="arrow-right"
-                  type="font-awesome"
-                  color="white"
-                  style={{ marginRight: 10 }}
-                  size={15}
-                />
-              }
-              raised
-              title="Delivery"
-            />
-            <Button
-              containerStyle={styles.button}
-              icon={
-                <Icon
-                  name="arrow-right"
-                  type="font-awesome"
-                  color="white"
-                  style={{ marginRight: 10 }}
-                  size={15}
-                />
-              }
-              raised
-              title="Pickup"
-            />
-          </View>
-        </View>
-      ))}
+        ))}
+      </ScrollView>
     </View>
   );
 }

@@ -1,5 +1,6 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "name": "restaurant",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -13,6 +14,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
+    "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.6.1",
     "@react-navigation/native": "^5.6.1",
@@ -27,21 +29,25 @@
     "expo-web-browser": "~8.3.1",
     "mobx": "^5.15.5",
     "mobx-react": "^6.2.5",
-    "mobx-store-model": "^0.6.37",
+    "mobx-store-model": "^0.6.45",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-native-auth0": "^2.5.0",
     "react-native-elements": "^2.2.0",
     "react-native-gesture-handler": "~1.6.0",
     "react-native-maps": "0.27.1",
     "react-native-safe-area-context": "~3.0.7",
     "react-native-screens": "~2.9.0",
+    "react-native-scrollable-tab-view": "^1.0.0",
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
     "@types/react": "~16.9.23",
     "@types/react-native": "~0.62.13",
+    "@types/react-native-auth0": "^2.5.0",
+    "@types/react-native-scrollable-tab-view": "^0.10.1",
     "babel-preset-expo": "~8.1.0",
     "jest-expo": "~38.0.0",
     "typescript": "~3.9.5"

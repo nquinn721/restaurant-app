@@ -1,25 +1,14 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import EditScreenInfo from "../components/EditScreenInfo";
-import { Text, View } from "../components/Themed";
-import { Main } from "../store/store.mobx";
+import { View } from "../components/Themed";
 import { ListItem } from "react-native-elements";
+import { Main } from "../store/Store.mobx";
 
 export default function ItemList({ navigation, route }: any) {
   const { items, categories } = React.useContext(Main);
   const category = categories.current;
-  let [item, setItem]: any[] = React.useState([]);
-
-  async function getData() {
-    const i = await items.getData(
-      items.route + `?s={"category": ${category.id}}`
-    );
-    setItem(i);
-  }
-  React.useEffect(() => {
-    getData();
-  }, [category.id]);
+  const item = items.objects.filter((v) => v.category.id === category.id);
 
   return (
     <View style={styles.container}>

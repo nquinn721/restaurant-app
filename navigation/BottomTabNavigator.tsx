@@ -13,6 +13,8 @@ import {
   EditRestaurantList,
 } from "../types";
 import Map from "../screens/Map";
+import { Icon } from "react-native-elements";
+import Auth from "../screens/auth/Auth";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -26,7 +28,7 @@ export default function BottomTabNavigator() {
     >
       <BottomTab.Screen
         name="Home"
-        component={TabOneNavigator}
+        component={HomeNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-home" color={color} />
@@ -39,6 +41,15 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-map" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="Account"
+        component={AuthNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Icon type="font-awesome" name="user" color={color} />
           ),
         }}
       />
@@ -56,7 +67,7 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator<HomeParamList>();
 
-function TabOneNavigator() {
+function HomeNavigator() {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -90,13 +101,13 @@ function TabOneNavigator() {
   );
 }
 
-const EditRestaurantStack = createStackNavigator<EditRestaurantList>();
+const LocationStack = createStackNavigator<EditRestaurantList>();
 
 function EditRestaurantNavigator() {
   return (
-    <EditRestaurantStack.Navigator>
-      <EditRestaurantStack.Screen
-        name="EditRestaurantScreen"
+    <LocationStack.Navigator>
+      <LocationStack.Screen
+        name="Locations"
         component={Map}
         options={({ route }) => ({
           title: route?.params?.name,
@@ -108,6 +119,28 @@ function EditRestaurantNavigator() {
           },
         })}
       />
-    </EditRestaurantStack.Navigator>
+    </LocationStack.Navigator>
+  );
+}
+
+const AuthStack = createStackNavigator<EditRestaurantList>();
+
+function AuthNavigator() {
+  return (
+    <AuthStack.Navigator>
+      <AuthStack.Screen
+        name="Account"
+        component={Auth}
+        options={({ route }) => ({
+          title: route?.params?.name,
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        })}
+      />
+    </AuthStack.Navigator>
   );
 }
