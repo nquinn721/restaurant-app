@@ -74,7 +74,7 @@ function HomeNavigator() {
         name="Home"
         component={Home}
         options={{
-          title: "McDonalds",
+          title: "Categories",
           headerStyle: {
             backgroundColor: "#2c3e50",
           },
