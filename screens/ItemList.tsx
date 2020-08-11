@@ -1,9 +1,10 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 
-import { View } from "../components/Themed";
+import { View, Text } from "../components/Themed";
 import { ListItem } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function ItemList({ navigation, route }: any) {
   const { items, categories } = React.useContext(Main);
@@ -12,17 +13,32 @@ export default function ItemList({ navigation, route }: any) {
 
   return (
     <View style={styles.container}>
-      {item.map((v: any, i: number) => {
-        return (
+      <FlatList
+        data={item}
+        renderItem={({ item }) => (
           <ListItem
-            key={i}
-            title={v.name}
+            key={item.id}
+            title={
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  width: "100%",
+                  flexDirection: "row",
+                }}
+              >
+                <Text>{item.name}</Text>
+                <Text style={{ color: "#777" }}>${item.COST()}</Text>
+              </View>
+            }
             bottomDivider
             chevron
-            onPress={() => navigation.navigate("ItemList", { category: v })}
+            onPress={() => {
+              items.setCurrent(item);
+              navigation.navigate("Item");
+            }}
           />
-        );
-      })}
+        )}
+      />
     </View>
   );
 }

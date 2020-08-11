@@ -13,8 +13,12 @@ import {
   EditRestaurantList,
 } from "../types";
 import Map from "../screens/Map";
-import { Icon } from "react-native-elements";
+import { Icon, Button, Badge } from "react-native-elements";
 import Auth from "../screens/auth/Auth";
+import Item from "../screens/Item";
+import { View } from "../components/Themed";
+import { Main } from "../store/Store.mobx";
+import Bag from "../screens/Bag";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -67,7 +71,8 @@ function TabBarIcon(props: { name: string; color: string }) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const HomeStack = createStackNavigator<HomeParamList>();
 
-function HomeNavigator() {
+function HomeNavigator({ navigation }: any) {
+  const { bag } = React.useContext(Main);
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -82,6 +87,22 @@ function HomeNavigator() {
             color: "white",
           },
           headerTintColor: "pink",
+          headerRight: () => (
+            <View style={{ backgroundColor: "rgba(0,0,0,0)" }}>
+              <Icon
+                name="md-cart"
+                type="ionicon"
+                color="rgba(255, 255, 255, 0.4)"
+                style={{ marginRight: 20 }}
+                onPress={() => navigation.navigate("Bag")}
+              />
+              <Badge
+                status="success"
+                value={bag.length}
+                containerStyle={{ position: "absolute", bottom: -4, right: 5 }}
+              />
+            </View>
+          ),
         }}
       />
       <HomeStack.Screen
@@ -89,6 +110,31 @@ function HomeNavigator() {
         component={ItemList}
         options={({ route }) => ({
           title: route?.params?.item?.name,
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        })}
+      />
+      <HomeStack.Screen
+        name="Item"
+        component={Item}
+        options={({ route }) => ({
+          title: route?.params?.item?.name,
+          headerStyle: {
+            backgroundColor: "#2c3e50",
+          },
+          headerTitleStyle: {
+            color: "white",
+          },
+        })}
+      />
+      <HomeStack.Screen
+        name="Bag"
+        component={Bag}
+        options={({ route }) => ({
           headerStyle: {
             backgroundColor: "#2c3e50",
           },

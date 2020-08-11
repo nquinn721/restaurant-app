@@ -5,7 +5,7 @@ import { Text, View } from "../components/Themed";
 import { Main } from "../store/Store.mobx";
 import { ListItem, Tile } from "react-native-elements";
 import { ScrollView } from "react-native-gesture-handler";
-const images = {
+const images: any = {
   Burgers: require("../assets/images/burger.jpg"),
   Sandwitches: require("../assets/images/sandwitch.jpg"),
   Appetizers: require("../assets/images/appetizer.jpg"),
@@ -14,10 +14,12 @@ const images = {
 
 export default function Home({ navigation }: any) {
   const { categories } = React.useContext(Main);
-  console.log(categories.fetchingData);
+
+  React.useEffect(() => {}, [categories.fetchingData]);
 
   return (
     <View style={styles.container}>
+      {categories.fetchFailed && <Text>Failed to get data</Text>}
       {categories.fetchingData ? (
         <Text>Fetching</Text>
       ) : (

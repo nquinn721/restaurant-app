@@ -13,6 +13,8 @@ class MainStore {
   items = new Store(Item);
   locations = new Store(Location);
 
+  bag: any[] = [];
+
   constructor() {
     this.getData();
   }
@@ -21,6 +23,7 @@ class MainStore {
     await this.categories.initLoad();
     await this.items.initLoad();
     await this.locations.initLoad();
+    console.log(this.categories.objects.length);
   }
 }
 

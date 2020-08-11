@@ -20,6 +20,8 @@ function login() {
       scope: "openid profile email",
     })
     .then((credentials) => {
+      console.log(credentials);
+
       Alert.alert("AccessToken: " + credentials.accessToken);
     })
     .catch((error) => console.log(error));
@@ -41,6 +43,7 @@ export default function () {
         </Text>
         <Button
           title="Continue"
+          onPress={login}
           buttonStyle={{ backgroundColor: "#A13647" }}
           raised
         />

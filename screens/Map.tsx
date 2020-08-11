@@ -62,7 +62,7 @@ export default function Map() {
                 containerStyle={styles.button}
                 icon={
                   <Icon
-                    name="arrow-right"
+                    name="road"
                     type="font-awesome"
                     color="white"
                     style={{ marginRight: 10 }}
@@ -76,7 +76,7 @@ export default function Map() {
                 containerStyle={styles.button}
                 icon={
                   <Icon
-                    name="arrow-right"
+                    name="gift"
                     type="font-awesome"
                     color="white"
                     style={{ marginRight: 10 }}
@@ -84,7 +84,7 @@ export default function Map() {
                   />
                 }
                 raised
-                title="Pickup"
+                title="Pickup  "
               />
             </View>
           </View>
