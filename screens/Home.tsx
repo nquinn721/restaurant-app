@@ -18,7 +18,7 @@ export default function Home({ navigation }: any) {
   console.log("----", categories.objects.length);
 
   return (
-    <View style={styles.container}>
+    <Main.Provider value={categories}>
       {categories.fetchFailed && <Text>Failed to get data</Text>}
       <ScrollRefresh onRefresh={() => setRefreshing(true)}>
         {categories.objects.map((v, i) => {
@@ -47,7 +47,7 @@ export default function Home({ navigation }: any) {
           );
         })}
       </ScrollRefresh>
-    </View>
+    </Main.Provider>
   );
 }
 // export default inject("store")(observer(ImageList));

@@ -6,14 +6,16 @@ import Login from "./Login";
 import Register from "./Register";
 import { Main } from "../../store/Store.mobx";
 import { View } from "../../components/Themed";
-import { Text, Button } from "react-native-elements";
+import { Text, Button, Overlay } from "react-native-elements";
 import Account from "./Account";
+import { Space } from "../../components/Elements";
 
 export default function () {
   const store = useContext(Main);
   const user = store.user;
   const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
-  console.log(isLoggedIn);
+  const [error, setError] = useState(false);
+  console.log("gonna rerender", error);
 
   const logout = useCallback(async () => {
     console.log("loggoin out");
@@ -23,8 +25,11 @@ export default function () {
   }, []);
 
   const login = useCallback(async (creds: any) => {
-    await store.login(creds);
-    setIsLoggedIn(true);
+    setError(false);
+    const d = await store.login(creds);
+
+    if (d.error) setError(true);
+    else setIsLoggedIn(true);
   }, []);
 
   return (
@@ -33,7 +38,7 @@ export default function () {
         <Account logout={logout} />
       ) : (
         <ScrollableTabView>
-          <Login tabLabel="Login" login={login} />
+          <Login tabLabel="Login" login={login} error={error} />
           <Register tabLabel="Register" />
         </ScrollableTabView>
       )}

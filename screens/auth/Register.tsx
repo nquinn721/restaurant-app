@@ -4,51 +4,59 @@ import { Input, Button } from "react-native-elements";
 import { Main } from "../../store/Store.mobx";
 
 export default function Register() {
-  const { user } = useContext(Main);
-  const [u, setUser] = useState({
-    firstname: "",
-    lastname: "",
-    password: "",
-    email: "",
-    phone: "",
-  });
-  const register = useCallback(async () => {
-    console.log(u);
+  const { users } = useContext(Main);
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
 
-    const a = await user.create(u);
-    setUser({});
+  const register = useCallback(async () => {
+    const a = await users.create({
+      firstname,
+      password,
+      lastname,
+      email,
+      phone,
+    });
+    setFirstname("");
+    setLastname("");
+    setPassword("");
+    setEmail("");
+    setPhone("");
   }, []);
   return (
     <View style={{ height: "100%", padding: 10 }}>
       <Input
         placeholder="first name*"
-        value={u.firstname}
-        onChangeText={(a) => setUser({ ...u, firstname: a })}
+        value={firstname}
+        onChange={(a) => setFirstname(a.nativeEvent.text)}
       />
       <Input
         placeholder="last name*"
-        value={u.lastname}
-        onChangeText={(a) => setUser({ ...u, lastname: a })}
+        value={lastname}
+        onChange={(a) => setLastname(a.nativeEvent.text)}
       />
       <Input
         placeholder="email*"
-        value={u.email}
-        onChangeText={(a) => setUser({ ...u, email: a })}
+        value={email}
+        onChange={(a) => setEmail(a.nativeEvent.text.toLowerCase())}
       />
       <Input
         placeholder="password*"
-        value={u.password}
-        onChangeText={(a) => setUser({ ...u, password: a })}
+        value={password}
+        onChange={(a) => setPassword(a.nativeEvent.text.toLowerCase())}
       />
       <Input
         placeholder="phone"
-        value={u.phone}
-        onChangeText={(a) => setUser({ ...u, phone: a })}
+        value={phone}
+        onChange={(a) => setPhone(a.nativeEvent.text)}
       />
       <Button
         title="Register"
         buttonStyle={{ backgroundColor: "#A13647" }}
         onPress={register}
+        disabled={!firstname || !lastname || !email || !password}
         raised
       />
     </View>
