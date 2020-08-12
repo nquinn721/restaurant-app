@@ -7,11 +7,12 @@ import Register from "./Register";
 import { Main } from "../../store/Store.mobx";
 import { View } from "../../components/Themed";
 import { Text, Button } from "react-native-elements";
+import Account from "./Account";
 
 export default function () {
   const store = useContext(Main);
   const user = store.user;
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   console.log(isLoggedIn);
 
   const logout = useCallback(async () => {
@@ -29,10 +30,7 @@ export default function () {
   return (
     <View style={{ height: "100%" }}>
       {user && isLoggedIn ? (
-        <View style={{ padding: 20 }}>
-          <Text h4>Welcome back {user.firstname}</Text>
-          <Button title="Logout" onPress={logout} />
-        </View>
+        <Account logout={logout} />
       ) : (
         <ScrollableTabView>
           <Login tabLabel="Login" login={login} />
