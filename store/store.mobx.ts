@@ -1,5 +1,6 @@
 import { Store, Service } from "mobx-store-model";
 import { createContext } from "react";
+import { observable } from "mobx";
 
 import { Category } from "./models/Category.model";
 import { Item } from "./models/Item.model";
@@ -13,6 +14,7 @@ class MainStore {
   items = new Store(Item);
   locations = new Store(Location);
 
+  @observable
   bag: any[] = [];
 
   constructor() {
@@ -24,6 +26,10 @@ class MainStore {
     await this.items.initLoad();
     await this.locations.initLoad();
     console.log(this.categories.objects.length);
+  }
+  removeFromBag(item: any) {
+    this.bag.splice(this.bag.indexOf(item), 1);
+    console.log("items left", this.bag.length);
   }
 }
 

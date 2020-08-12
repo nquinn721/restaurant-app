@@ -96,11 +96,17 @@ function HomeNavigator({ navigation }: any) {
                 style={{ marginRight: 20 }}
                 onPress={() => navigation.navigate("Bag")}
               />
-              <Badge
-                status="success"
-                value={bag.length}
-                containerStyle={{ position: "absolute", bottom: -4, right: 5 }}
-              />
+              {!!bag.length && (
+                <Badge
+                  status="error"
+                  value={bag.length}
+                  containerStyle={{
+                    position: "absolute",
+                    bottom: -4,
+                    right: 5,
+                  }}
+                />
+              )}
             </View>
           ),
         }}
@@ -109,6 +115,8 @@ function HomeNavigator({ navigation }: any) {
         name="ItemList"
         component={ItemList}
         options={({ route }) => ({
+          headerBackTitleVisible: false,
+          headerTintColor: "white",
           title: route?.params?.item?.name,
           headerStyle: {
             backgroundColor: "#2c3e50",
@@ -122,6 +130,8 @@ function HomeNavigator({ navigation }: any) {
         name="Item"
         component={Item}
         options={({ route }) => ({
+          headerBackTitleVisible: false,
+          headerTintColor: "white",
           title: route?.params?.item?.name,
           headerStyle: {
             backgroundColor: "#2c3e50",
@@ -135,6 +145,8 @@ function HomeNavigator({ navigation }: any) {
         name="Bag"
         component={Bag}
         options={({ route }) => ({
+          headerBackTitleVisible: false,
+          headerTintColor: "white",
           headerStyle: {
             backgroundColor: "#2c3e50",
           },
