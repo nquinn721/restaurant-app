@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native",
     "lib": ["dom", "esnext"],
@@ -9,5 +10,6 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "strict": true
-  }
+  },
+  "include": ["./**/*.ts"]
 }

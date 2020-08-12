@@ -5,7 +5,7 @@ import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 
 export default function ({ navigation }: any) {
-  const { items, bag } = React.useContext(Main);
+  const { items, cart } = React.useContext(Main);
   const { current } = items;
   const [overlay, setOverlay] = React.useState(false);
   return (
@@ -16,7 +16,8 @@ export default function ({ navigation }: any) {
         <Overlay isVisible={overlay}>
           <Text>
             You've added{" "}
-            <Text style={{ fontWeight: "800" }}>{current.name}</Text> to the bag
+            <Text style={{ fontWeight: "800" }}>{current.name}</Text> to the
+            cart
           </Text>
         </Overlay>
       )}
@@ -29,11 +30,11 @@ export default function ({ navigation }: any) {
       </View>
 
       <Button
-        title="Add to bag"
+        title="Add to cart"
         onPress={() => {
           setOverlay(true);
 
-          bag.push(current);
+          cart.push(current);
           setTimeout(() => {
             items.resetCurrent();
             navigation.popToTop();

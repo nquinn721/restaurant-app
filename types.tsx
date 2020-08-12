@@ -13,7 +13,7 @@ export type BottomTabParamList = {
 export type HomeParamList = {
   Home: undefined;
   Item: undefined;
-  Bag: undefined;
+  Cart: undefined;
   ItemList: undefined;
 };
 

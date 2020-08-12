@@ -7,7 +7,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function () {
   const store = React.useContext(Main);
-  const costs = store.bag.map((v) => v.cost);
+  const costs = store.cart.map((v) => v.cost);
   const items: any = {};
   let total = 0;
 
@@ -15,17 +15,17 @@ export default function () {
     total = costs.reduce((a, b) => a + b).toFixed(2);
   }
 
-  store.bag.map((v) => {
+  store.cart.map((v) => {
     if (!items[v.name]) items[v.name] = { item: v, total: 1 };
     else items[v.name].total++;
   });
   useEffect(() => {
     console.log("changed");
-  }, [store.bag]);
+  }, [store.cart]);
 
   return (
     <View style={{ padding: 10 }}>
-      <Text h4>Your bag</Text>
+      <Text h4>Your cart</Text>
       <Space />
       <View style={{ justifyContent: "space-between", height: "90%" }}>
         <View>
@@ -46,7 +46,7 @@ export default function () {
                   <Text>${(v.item.cost * v.total).toFixed(2)}</Text>
                 </View>
                 <TouchableOpacity
-                  onPress={() => store.removeFromBag(v)}
+                  onPress={() => store.removeFromcart(v)}
                   style={{
                     padding: 20,
                     alignItems: "center",

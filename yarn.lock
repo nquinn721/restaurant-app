@@ -1328,6 +1328,13 @@
     "@types/yargs" "^15.0.0"
     chalk "^3.0.0"
 
+"@react-native-community/async-storage@~1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/async-storage/-/async-storage-1.11.0.tgz#bf81b8813080846f150c67f531987c429b442166"
+  integrity sha512-Pq9LlmvtCEKAGdkyrgTcRxNh2fnHFykEj2qnRYijOl1pDIl2MkD5IxaXu5eOL0wgOtAl4U//ff4z40Td6XR5rw==
+  dependencies:
+    deep-assign "^3.0.0"
+
 "@react-native-community/cli-debugger-ui@^4.9.0":
   version "4.9.0"
   resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.9.0.tgz#4177764ba69243c97aa26829d59d9501acb2bd71"
@@ -5602,10 +5609,10 @@ mobx-react@^6.2.5:
   dependencies:
     mobx-react-lite ">=2.0.6"
 
-mobx-store-model@^0.6.45:
-  version "0.6.45"
-  resolved "https://registry.yarnpkg.com/mobx-store-model/-/mobx-store-model-0.6.45.tgz#b50b758826d6e53240dc44780dbb4baccb56fe02"
-  integrity sha512-zRMOwNEjvZDsjqaGEij2ZPY8quZxZxAEJgiI3R8KGUnPDe0Cc2ZDz7cTluSdKiREUTb0JtzMTw+XGbUVv18qkg==
+mobx-store-model@^0.6.46:
+  version "0.6.46"
+  resolved "https://registry.yarnpkg.com/mobx-store-model/-/mobx-store-model-0.6.46.tgz#f98d3f528e672185b5f2e87296e67dc5422dc415"
+  integrity sha512-Dtd4Nan3Xo5scpCPOuNOgO2J9F0Heqyx7R7w6HthWx4qg8+dm8P4I9oXMUalY+x8mwkhG8IhMCcCrZJzlKFDiA==
   dependencies:
     axios "^0.19.2"
     jest-mock-axios "^4.2.1"

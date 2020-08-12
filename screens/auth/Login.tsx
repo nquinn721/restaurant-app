@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useCallback } from "react";
 import Auth0 from "react-native-auth0";
 import { Alert } from "react-native";
 import { View } from "../../components/Themed";
@@ -7,34 +7,32 @@ import Or from "restaurant/components/Or";
 import LoginWGoogle from "../../components/LoginWGoogle";
 import LoginWFB from "../../components/LoginWFB";
 import { Space } from "../../components/Elements";
+import { Main } from "../../store/Store.mobx";
+
 const googleSignInImage = require("../../assets/images/signingoogle.png");
 const fbSignInImage = require("../../assets/images/signinfacebook.png");
-const auth0 = new Auth0({
-  clientId: "dNmuVLtfhk5O9wcqwM137C4KPLfJ09Wb",
-  domain: "dev-le393411.us.auth0.com",
-});
 
-function login() {
-  auth0.webAuth
-    .authorize({
-      scope: "openid profile email",
-    })
-    .then((credentials) => {
-      console.log(credentials);
+export default function (props: any) {
+  const store = useContext(Main);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState({
+    username: "walter@walter.com",
+    password: "walter123",
+  });
 
-      Alert.alert("AccessToken: " + credentials.accessToken);
-    })
-    .catch((error) => console.log(error));
-}
-export default function () {
+  const login = useCallback(async () => {
+    props.login(user);
+  }, []);
   return (
     <View style={{ padding: 30, backgroundColor: "white", height: "100%" }}>
       <Input
         leftIcon={<Icon name="user" type="font-awesome" color="#aaa" />}
-        placeholder="Username"
+        value={user.username}
+        placeholder="Email"
       />
       <Input
         leftIcon={<Icon name="lock" type="font-awesome" color="#aaa" />}
+        value={user.password}
         placeholder="Password"
       />
       <View style={{ paddingHorizontal: 10 }}>

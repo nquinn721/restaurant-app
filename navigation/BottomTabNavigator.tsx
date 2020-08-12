@@ -18,7 +18,7 @@ import Auth from "../screens/auth/Auth";
 import Item from "../screens/Item";
 import { View } from "../components/Themed";
 import { Main } from "../store/Store.mobx";
-import Bag from "../screens/Bag";
+import Cart from "../screens/Cart";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -72,7 +72,7 @@ function TabBarIcon(props: { name: string; color: string }) {
 const HomeStack = createStackNavigator<HomeParamList>();
 
 function HomeNavigator({ navigation }: any) {
-  const { bag } = React.useContext(Main);
+  const { cart } = React.useContext(Main);
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen
@@ -94,12 +94,12 @@ function HomeNavigator({ navigation }: any) {
                 type="ionicon"
                 color="rgba(255, 255, 255, 0.4)"
                 style={{ marginRight: 20 }}
-                onPress={() => navigation.navigate("Bag")}
+                onPress={() => navigation.navigate("Cart")}
               />
-              {!!bag.length && (
+              {!!cart.length && (
                 <Badge
                   status="error"
-                  value={bag.length}
+                  value={cart.length}
                   containerStyle={{
                     position: "absolute",
                     bottom: -4,
@@ -142,8 +142,8 @@ function HomeNavigator({ navigation }: any) {
         })}
       />
       <HomeStack.Screen
-        name="Bag"
-        component={Bag}
+        name="Cart"
+        component={Cart}
         options={({ route }) => ({
           headerBackTitleVisible: false,
           headerTintColor: "white",

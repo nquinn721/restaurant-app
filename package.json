@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.0",
+    "@react-native-community/async-storage": "~1.11.0",
     "@react-native-community/google-signin": "^4.0.3",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.6.1",
@@ -29,7 +30,7 @@
     "expo-web-browser": "~8.3.1",
     "mobx": "^5.15.5",
     "mobx-react": "^6.2.5",
-    "mobx-store-model": "^0.6.45",
+    "mobx-store-model": "^0.6.46",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
