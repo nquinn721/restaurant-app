@@ -18,8 +18,6 @@ export default function () {
   console.log("gonna rerender", error);
 
   const logout = useCallback(async () => {
-    console.log("loggoin out");
-
     await store.logout();
     setIsLoggedIn(false);
   }, []);

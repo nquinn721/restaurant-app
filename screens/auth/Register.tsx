@@ -11,20 +11,22 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
 
-  const register = useCallback(async () => {
-    const a = await users.create({
+  async function register() {
+    const d = {
       firstname,
       password,
       lastname,
       email,
       phone,
-    });
+    };
+
+    const a = await users.create(d);
     setFirstname("");
     setLastname("");
     setPassword("");
     setEmail("");
     setPhone("");
-  }, []);
+  }
   return (
     <View style={{ height: "100%", padding: 10 }}>
       <Input
