@@ -51,8 +51,8 @@ class MainStore {
   async login(creds: object) {
     this.sessionExpired = false;
     this.isLoggingIn = true;
+
     const login = await Service.post("/auth/login", creds);
-    console.log(login);
 
     Service.setBearerToken(login.access_token);
 

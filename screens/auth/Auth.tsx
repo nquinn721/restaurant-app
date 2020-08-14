@@ -13,9 +13,8 @@ import { Space } from "../../components/Elements";
 export default function () {
   const store = useContext(Main);
   const user = store.user;
-  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
+  const [isLoggedIn, setIsLoggedIn] = useState(store.isLoggedIn);
   const [error, setError] = useState(false);
-  console.log("gonna rerender", error);
 
   const logout = useCallback(async () => {
     await store.logout();

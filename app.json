@@ -17,7 +17,16 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "example.expo.restaurant",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "490764248540-i5fv9ltt0v3lc8hbvlrsftlcrhivder9.apps.googleusercontent.com"
+        }
+      }
+    },
+    "android": {
+      "package": "example.expo.restaurant"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"

@@ -19,6 +19,8 @@ import Item from "../screens/Item";
 import { View } from "../components/Themed";
 import { Main } from "../store/Store.mobx";
 import Cart from "../screens/Cart";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Text } from "react-native";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -183,7 +185,8 @@ function EditRestaurantNavigator() {
 
 const AuthStack = createStackNavigator<EditRestaurantList>();
 
-function AuthNavigator() {
+function AuthNavigator({ navigation }) {
+  const store = React.useContext(Main);
   return (
     <AuthStack.Navigator>
       <AuthStack.Screen
@@ -197,6 +200,18 @@ function AuthNavigator() {
           headerTitleStyle: {
             color: "white",
           },
+          // headerRight: () => (
+          //   <TouchableOpacity
+          //     style={{ alignSelf: "flex-end" }}
+          //     onPress={() => {
+          //       store.logout();
+          //       navigation.navigate("Home");
+          //     }}
+          //   >
+          //     <Icon name="md-log-out" type="ionicon" color="#999" />
+          //     <Text style={{ color: "#999" }}>logout</Text>
+          //   </TouchableOpacity>
+          // ),
         })}
       />
     </AuthStack.Navigator>

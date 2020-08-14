@@ -1,6 +1,6 @@
 import React, { useState, useContext, useCallback, useEffect } from "react";
 import Auth0 from "react-native-auth0";
-import { Alert } from "react-native";
+import { Alert, TouchableOpacity } from "react-native";
 import { View } from "../../components/Themed";
 import {
   Input,
@@ -15,20 +15,21 @@ import LoginWGoogle from "../../components/LoginWGoogle";
 import LoginWFB from "../../components/LoginWFB";
 import { Space } from "../../components/Elements";
 import { Main } from "../../store/Store.mobx";
+import * as Google from "expo-google-app-auth";
 
 const googleSignInImage = require("../../assets/images/signingoogle.png");
 const fbSignInImage = require("../../assets/images/signinfacebook.png");
+async function signInGoogle() {}
 
 export default function (props: any) {
   const store = useContext(Main);
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState("walter@walter.com");
+  const [email, setEmail] = useState("walter@walter.com");
   const [password, setPassword] = useState("walter123");
   const [error, setError] = useState(false);
 
   useEffect(() => {
     console.log("use effect", props.error);
-
     if (props.error) {
       setLoading(false);
       setError(true);
@@ -36,7 +37,25 @@ export default function (props: any) {
   }, [props.error]);
   function login() {
     setLoading(true);
-    props.login({ username, password });
+    props.login({ email, password });
+  }
+  async function getAuth() {
+    const results = await Google.logInAsync({
+      clientId:
+        "490764248540-i5fv9ltt0v3lc8hbvlrsftlcrhivder9.apps.googleusercontent.com",
+      scopes: ["profile", "email"],
+    });
+
+    if (results.type === "success") {
+      props.login({
+        ...results.user,
+        accessToken: results.accessToken,
+        username: results.user.email,
+        password: "googleauth",
+      });
+    } else {
+      alert("Failed to login with google");
+    }
   }
   function clearError() {
     setError(false);
@@ -59,8 +78,8 @@ export default function (props: any) {
       </Overlay>
       <Input
         leftIcon={<Icon name="user" type="font-awesome" color="#aaa" />}
-        onChange={(a) => setUsername(a.nativeEvent.text.toLowerCase())}
-        value={username}
+        onChange={(a) => setEmail(a.nativeEvent.text.toLowerCase())}
+        value={email}
         placeholder="Email"
       />
       <Input
@@ -79,13 +98,15 @@ export default function (props: any) {
           onPress={() => login()}
           buttonStyle={{ backgroundColor: "#A13647" }}
           loading={loading}
-          disabled={!password || !username}
+          disabled={!password || !email}
           raised
         />
       </View>
       <Or />
       <View style={{ paddingHorizontal: 10 }}>
-        <LoginWGoogle />
+        <TouchableOpacity onPress={getAuth}>
+          <LoginWGoogle />
+        </TouchableOpacity>
         <Space />
         <LoginWFB />
       </View>
