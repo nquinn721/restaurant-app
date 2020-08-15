@@ -36,7 +36,7 @@ export default function () {
       ) : (
         <ScrollableTabView>
           <Login tabLabel="Login" login={login} error={error} />
-          <Register tabLabel="Register" />
+          <Register tabLabel="Register" login={login} error={error} />
         </ScrollableTabView>
       )}
     </View>

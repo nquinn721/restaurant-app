@@ -1,10 +1,30 @@
 import React from "react";
 import { Image } from "react-native-elements";
 import { View, Text } from "./Themed";
+import * as Google from "expo-google-app-auth";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default function () {
+export default function (props: any) {
+  async function getAuth() {
+    const results = await Google.logInAsync({
+      clientId:
+        "490764248540-i5fv9ltt0v3lc8hbvlrsftlcrhivder9.apps.googleusercontent.com",
+      scopes: ["profile", "email"],
+    });
+
+    if (results.type === "success") {
+      props.login({
+        ...results.user,
+        accessToken: results.accessToken,
+        username: results.user.email,
+        password: "googleauth",
+      });
+    } else {
+      alert("Failed to login with google");
+    }
+  }
   return (
-    <View
+    <TouchableOpacity
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -13,6 +33,7 @@ export default function () {
         borderWidth: 1,
         padding: 10,
       }}
+      onPress={getAuth}
     >
       <Image
         source={{
@@ -22,6 +43,6 @@ export default function () {
         style={{ width: 20, height: 20, marginRight: 20 }}
       />
       <Text>Continue with Google</Text>
-    </View>
+    </TouchableOpacity>
   );
 }

@@ -15,6 +15,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
+    "facebookScheme": "fb311115876793749",
+    "facebookAppId": "311115876793749",
+    "facebookDisplayName": "Restaurant",
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,

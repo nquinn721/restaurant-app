@@ -2,8 +2,10 @@ import React, { useState, useCallback, useContext } from "react";
 import { View, Text } from "../../components/Themed";
 import { Input, Button } from "react-native-elements";
 import { Main } from "../../store/Store.mobx";
+import LoginWGoogle from "../../components/LoginWGoogle";
+import { Space } from "../../components/Elements";
 
-export default function Register() {
+export default function Register(props: any) {
   const { users } = useContext(Main);
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");

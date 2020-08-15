@@ -1,10 +1,38 @@
 import React from "react";
 import { Image } from "react-native-elements";
 import { View, Text } from "./Themed";
+import * as Facebook from "expo-facebook";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Alert } from "react-native";
 
-export default function () {
+export default function (props: any) {
+  async function getAuth() {
+    try {
+      Facebook.initializeAsync("311115876793749");
+      const results = await Facebook.logInWithReadPermissionsAsync();
+      console.log("results", results);
+      if (results.type === "success") {
+        // Get the user's name using Facebook's Graph API
+
+        const response = await fetch(
+          `https://graph.facebook.com/me?fields=name,email&access_token=${results.token}`
+        );
+        const d = await response.json();
+        props.login({
+          givenName: d.name.split(" ")[0],
+          familyName: d.name.split(" ")[1],
+          username: d.email,
+          password: "fbauth",
+        });
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
   return (
-    <View
+    <TouchableOpacity
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -13,6 +41,7 @@ export default function () {
         borderWidth: 1,
         padding: 10,
       }}
+      onPress={getAuth}
     >
       <Image
         source={{
@@ -22,6 +51,6 @@ export default function () {
         style={{ width: 20, height: 20, marginRight: 20 }}
       />
       <Text>Continue with Facebook</Text>
-    </View>
+    </TouchableOpacity>
   );
 }

@@ -15,7 +15,6 @@ import LoginWGoogle from "../../components/LoginWGoogle";
 import LoginWFB from "../../components/LoginWFB";
 import { Space } from "../../components/Elements";
 import { Main } from "../../store/Store.mobx";
-import * as Google from "expo-google-app-auth";
 
 const googleSignInImage = require("../../assets/images/signingoogle.png");
 const fbSignInImage = require("../../assets/images/signinfacebook.png");
@@ -37,43 +36,42 @@ export default function (props: any) {
   }, [props.error]);
   function login() {
     setLoading(true);
-    props.login({ email, password });
+    props.login({ username: email, password });
   }
-  async function getAuth() {
-    const results = await Google.logInAsync({
-      clientId:
-        "490764248540-i5fv9ltt0v3lc8hbvlrsftlcrhivder9.apps.googleusercontent.com",
-      scopes: ["profile", "email"],
-    });
 
-    if (results.type === "success") {
-      props.login({
-        ...results.user,
-        accessToken: results.accessToken,
-        username: results.user.email,
-        password: "googleauth",
-      });
-    } else {
-      alert("Failed to login with google");
-    }
-  }
   function clearError() {
     setError(false);
     setLoading(false);
   }
   return (
     <View style={{ padding: 30, backgroundColor: "white", height: "100%" }}>
-      <Overlay isVisible={error} onBackdropPress={clearError}>
+      <Overlay
+        isVisible={error}
+        onBackdropPress={clearError}
+        overlayStyle={{ backgroundColor: "#d63031" }}
+      >
         <View
           style={{
             padding: 20,
             alignItems: "center",
             justifyContent: "center",
+            backgroundColor: "#d63031",
           }}
         >
-          <Text>Failed to login</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#d63031",
+              alignItems: "center",
+            }}
+          >
+            <Icon name="error" type="fontawesome" style={{ marginRight: 10 }} />
+            <Text style={{ color: "white" }}>Failed to login</Text>
+          </View>
           <Space />
-          <Text>Check your credentials and try again</Text>
+          <Text style={{ color: "white" }}>
+            Check your credentials and try again
+          </Text>
         </View>
       </Overlay>
       <Input
@@ -104,11 +102,9 @@ export default function (props: any) {
       </View>
       <Or />
       <View style={{ paddingHorizontal: 10 }}>
-        <TouchableOpacity onPress={getAuth}>
-          <LoginWGoogle />
-        </TouchableOpacity>
+        <LoginWGoogle login={props.login} />
         <Space />
-        <LoginWFB />
+        <LoginWFB login={props.login} />
       </View>
     </View>
   );
