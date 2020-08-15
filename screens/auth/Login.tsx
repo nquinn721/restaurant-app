@@ -14,21 +14,14 @@ import Or from "restaurant/components/Or";
 import LoginWGoogle from "../../components/LoginWGoogle";
 import LoginWFB from "../../components/LoginWFB";
 import { Space } from "../../components/Elements";
-import { Main } from "../../store/Store.mobx";
-
-const googleSignInImage = require("../../assets/images/signingoogle.png");
-const fbSignInImage = require("../../assets/images/signinfacebook.png");
-async function signInGoogle() {}
 
 export default function (props: any) {
-  const store = useContext(Main);
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("walter@walter.com");
   const [password, setPassword] = useState("walter123");
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.log("use effect", props.error);
     if (props.error) {
       setLoading(false);
       setError(true);
