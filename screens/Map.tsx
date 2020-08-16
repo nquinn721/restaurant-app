@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MapView from "react-native-maps";
+import MapView, { Marker, AnimatedRegion } from "react-native-maps";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { SearchBar, Button, Icon } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
@@ -43,7 +43,15 @@ export default function Map() {
             latitudeDelta: 0.322,
             longitudeDelta: 0.421,
           }}
-        />
+        >
+          {locations.objects.map((v, i) => (
+            <Marker.Animated
+              key={i}
+              draggable
+              coordinate={{ latitude: Number(v.lat), longitude: Number(v.lon) }}
+            />
+          ))}
+        </MapView>
       </View>
       <ScrollView>
         {locations.objects.map((v, i) => (

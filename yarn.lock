@@ -3280,6 +3280,13 @@ expo-location@~8.2.1:
   dependencies:
     invariant "^2.2.4"
 
+expo-payments-stripe@~8.2.1:
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/expo-payments-stripe/-/expo-payments-stripe-8.2.3.tgz#7e7dadd62d80fe4e48d7e6bfe43adcbb47d314ef"
+  integrity sha512-WS4sxvNbUBYxa0Di/G8nxNHhq1wWe3SxgU4vLybV852CSyq6wJ2z4ggRpxUQOQiVGS96K9d62mZdLx6PHQs59g==
+  dependencies:
+    prop-types "^15.6.0"
+
 expo-permissions@~9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/expo-permissions/-/expo-permissions-9.0.1.tgz#dc10b58654bbe39bbbed5827369942b01b08055e"
@@ -6438,6 +6445,11 @@ react-native-maps@0.27.1:
   version "0.27.1"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.27.1.tgz#2f10cd417bb2fd938c9e015b1c9b6d9b1a44b97f"
   integrity sha512-HygBkZBecTnIVRYrSiLRAvu4OmXOYso/A7c6Cy73HkOh9CgGV8Ap5eBea24tvmFGptjj5Hg8AJ94/YbmWK1Okw==
+
+react-native-paypal@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-paypal/-/react-native-paypal-2.1.0.tgz#0c3a2e7302d7eb7a91317ccf07cc943d2e624554"
+  integrity sha512-FDua28/wR6bougGDzd4vvkS3adMkt1obPnTzdc0S1rMpDyNXmHlzKX6FYr62l1VtEowGnYNbbzqA9h1Cjbm04w==
 
 react-native-ratings@^7.2.0:
   version "7.2.0"

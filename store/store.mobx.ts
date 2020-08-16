@@ -28,7 +28,7 @@ class MainStore {
     this.getData();
   }
 
-  async getData(cb?: any) {
+  async getData() {
     await this.categories.initLoad();
     await this.items.initLoad();
     await this.locations.initLoad();
@@ -40,9 +40,8 @@ class MainStore {
       Service.ajax.defaults.headers.common.Authorization = `Bearer ${authToken}`;
       Service.isLoggedIn = true;
     }
-
-    cb && cb();
   }
+
   removeFromCart(item: any) {
     this.cart.splice(this.cart.indexOf(item), 1);
     console.log("items left", this.cart.length);

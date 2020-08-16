@@ -13,12 +13,12 @@ const images: any = {
 };
 
 export default function Home({ navigation }: any) {
-  const { categories } = React.useContext(Main);
+  const store = React.useContext(Main);
+  const { categories } = store;
   const [refreshing, setRefreshing] = React.useState(false);
-  console.log("----", categories.objects.length);
 
   return (
-    <Main.Provider value={categories}>
+    <Main.Provider value={store}>
       {categories.fetchFailed && <Text>Failed to get data</Text>}
       <ScrollRefresh onRefresh={() => setRefreshing(true)}>
         {categories.objects.map((v, i) => {

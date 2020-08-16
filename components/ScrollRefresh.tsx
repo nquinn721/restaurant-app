@@ -7,14 +7,13 @@ export default function (props: any) {
   const main = useContext(Main);
   const [refreshing, setRefreshing] = useState(false);
 
-  const onRefresh = useCallback(() => {
+  async function onRefresh() {
     setRefreshing(true);
     props.onRefresh && props.onRefresh();
-    main.getData(() => {
-      setRefreshing(false);
-      props.onRefresh && props.onRefresh();
-    });
-  }, []);
+    await main.getData();
+    setRefreshing(false);
+    props.onRefresh && props.onRefresh();
+  }
   return (
     <ScrollView
       refreshControl={

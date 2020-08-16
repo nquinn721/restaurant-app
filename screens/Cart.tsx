@@ -1,9 +1,32 @@
 import React, { useContext, useEffect } from "react";
-import { Text, Card, Button, Icon } from "react-native-elements";
+import { Text, Card, Button, Icon, BottomSheet } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { View } from "../components/Themed";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { PaymentsStripe as Stripe } from "expo-payments-stripe";
+import { requestOneTimePayment } from "react-native-paypal";
+
+async function paypalPayment() {
+  const {
+    nonce,
+    payerId,
+    email,
+    firstName,
+    lastName,
+    phone,
+  } = await requestOneTimePayment(token, {
+    amount: "5", // required
+    // any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
+    currency: "GBP",
+    // any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
+    localeCode: "en_GB",
+    shippingAddressRequired: false,
+    userAction: "commit", // display 'Pay Now' on the PayPal review page
+    // one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
+    intent: "authorize",
+  });
+}
 
 export default function () {
   const store = React.useContext(Main);
@@ -19,9 +42,6 @@ export default function () {
     if (!items[v.name]) items[v.name] = { item: v, total: 1 };
     else items[v.name].total++;
   });
-  useEffect(() => {
-    console.log("changed");
-  }, [store.cart]);
 
   return (
     <View style={{ padding: 10 }}>
@@ -29,7 +49,7 @@ export default function () {
       <Space />
       <View style={{ justifyContent: "space-between", height: "90%" }}>
         <View>
-          {Object.values(items).map((v, i) => (
+          {Object.values(items).map((v: any, i: number) => (
             <Card>
               <View
                 style={{
@@ -76,7 +96,31 @@ export default function () {
             <Text style={{ fontSize: 20 }}>Total</Text>
             <Text style={{ fontSize: 20 }}>${total}</Text>
           </View>
-          <Button title="Check out" />
+
+          <BottomSheet
+            list={[
+              {
+                title: "Pay by PayPal",
+                leftIcon: {
+                  name: "paypal",
+                  type: "font-awesome-5",
+                  color: "#009cde",
+                },
+              },
+              {
+                title: "Trips",
+                leftIcon: { name: "flight-takeoff" },
+              },
+              {
+                title: "Cancel",
+                leftIcon: { name: "close", color: "white" },
+                containerStyle: { backgroundColor: "red" },
+                titleStyle: { color: "white" },
+              },
+            ]}
+            cancelButtonIndex={2}
+            buttonProps={{ title: "Check out" }}
+          />
         </View>
       </View>
     </View>
