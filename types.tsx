@@ -15,12 +15,17 @@ export type HomeParamList = {
   Item: undefined;
   Cart: undefined;
   ItemList: undefined;
+  Checkout: undefined;
 };
 
 export type TabTwoParamList = {
   ItemList: undefined;
 };
 
-export type EditRestaurantList = {
-  EditRestaurantScreen: undefined;
+export type LocationList = {
+  Locations: undefined;
+};
+
+export type AuthList = {
+  Account: undefined;
 };

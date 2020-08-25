@@ -98,30 +98,6 @@ export default observer(() => {
               <Text style={{ fontSize: 20 }}>Total</Text>
               <Text style={{ fontSize: 20 }}>${total}</Text>
             </View>
-            <BottomSheet
-              list={[
-                {
-                  title: "Pay by PayPal",
-                  leftIcon: {
-                    name: "paypal",
-                    type: "font-awesome-5",
-                    color: "#009cde",
-                  },
-                },
-                {
-                  title: "Trips",
-                  leftIcon: { name: "flight-takeoff" },
-                },
-                {
-                  title: "Cancel",
-                  leftIcon: { name: "close", color: "white" },
-                  containerStyle: { backgroundColor: "red" },
-                  titleStyle: { color: "white" },
-                },
-              ]}
-              cancelButtonIndex={2}
-              buttonProps={{ title: "Check out" }}
-            />
           </View>
         </View>
       ) : (

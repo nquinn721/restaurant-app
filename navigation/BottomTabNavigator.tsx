@@ -5,22 +5,12 @@ import * as React from "react";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
-import Home from "../screens/Home";
-import ItemList from "../screens/ItemList";
-import {
-  BottomTabParamList,
-  HomeParamList,
-  EditRestaurantList,
-} from "../types";
+import { BottomTabParamList, LocationList, AuthList } from "../types";
 import Map from "../screens/Map";
-import { Icon, Button, Badge } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import Auth from "../screens/auth/Auth";
-import Item from "../screens/Item";
-import { View } from "../components/Themed";
 import { Main } from "../store/Store.mobx";
-import Cart from "../screens/Cart";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Text } from "react-native";
+import HomeNavigator from "./stacks/HomeStack";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -43,7 +33,7 @@ export default function BottomTabNavigator() {
       />
       <BottomTab.Screen
         name="Locations"
-        component={EditRestaurantNavigator}
+        component={LocationsNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="ios-map" color={color} />
@@ -71,99 +61,10 @@ function TabBarIcon(props: { name: string; color: string }) {
 
 // Each tab has its own navigation stack, you can read more about this pattern here:
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const HomeStack = createStackNavigator<HomeParamList>();
 
-function HomeNavigator({ navigation }: any) {
-  const { cart } = React.useContext(Main);
-  return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen
-        name="Home"
-        component={Home}
-        options={{
-          title: "Categories",
-          headerStyle: {
-            backgroundColor: "#2c3e50",
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-          headerTintColor: "pink",
-          headerRight: () => (
-            <View style={{ backgroundColor: "rgba(0,0,0,0)" }}>
-              <Icon
-                name="md-cart"
-                type="ionicon"
-                color="rgba(255, 255, 255, 0.4)"
-                style={{ marginRight: 20 }}
-                onPress={() => navigation.navigate("Cart")}
-              />
-              {!!cart.length && (
-                <Badge
-                  status="error"
-                  value={cart.length}
-                  containerStyle={{
-                    position: "absolute",
-                    bottom: -4,
-                    right: 5,
-                  }}
-                />
-              )}
-            </View>
-          ),
-        }}
-      />
-      <HomeStack.Screen
-        name="ItemList"
-        component={ItemList}
-        options={({ route }) => ({
-          headerBackTitleVisible: false,
-          headerTintColor: "white",
-          title: route?.params?.item?.name,
-          headerStyle: {
-            backgroundColor: "#2c3e50",
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-        })}
-      />
-      <HomeStack.Screen
-        name="Item"
-        component={Item}
-        options={({ route }) => ({
-          headerBackTitleVisible: false,
-          headerTintColor: "white",
-          title: route?.params?.item?.name,
-          headerStyle: {
-            backgroundColor: "#2c3e50",
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-        })}
-      />
-      <HomeStack.Screen
-        name="Cart"
-        component={Cart}
-        options={({ route }) => ({
-          headerBackTitleVisible: false,
-          headerTintColor: "white",
-          headerStyle: {
-            backgroundColor: "#2c3e50",
-          },
-          headerTitleStyle: {
-            color: "white",
-          },
-        })}
-      />
-    </HomeStack.Navigator>
-  );
-}
+const LocationStack = createStackNavigator<LocationList>();
 
-const LocationStack = createStackNavigator<EditRestaurantList>();
-
-function EditRestaurantNavigator() {
+function LocationsNavigator() {
   return (
     <LocationStack.Navigator>
       <LocationStack.Screen
@@ -183,7 +84,7 @@ function EditRestaurantNavigator() {
   );
 }
 
-const AuthStack = createStackNavigator<EditRestaurantList>();
+const AuthStack = createStackNavigator<AuthList>();
 
 function AuthNavigator({ navigation }) {
   const store = React.useContext(Main);
