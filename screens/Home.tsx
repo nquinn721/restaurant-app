@@ -16,12 +16,21 @@ export default function Home({ navigation }: any) {
   const store = React.useContext(Main);
   const { categories } = store;
   const [refreshing, setRefreshing] = React.useState(false);
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    async function getData() {
+      await categories.refreshData();
+      setData(categories.objects);
+    }
+    getData();
+  }, []);
 
   return (
     <Main.Provider value={store}>
       {categories.fetchFailed && <Text>Failed to get data</Text>}
       <ScrollRefresh onRefresh={() => setRefreshing(true)}>
-        {categories.objects.map((v, i) => {
+        {data.map((v, i) => {
           return (
             <Tile
               key={i}

@@ -7,14 +7,18 @@ import { Item } from "./models/Item.model";
 import { Location } from "./models/Location.model";
 import { User } from "./models/User.model";
 import AsyncStorage from "@react-native-community/async-storage";
-Service.setBaseUrl("http://localhost:8080");
-// Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com/");
+import { Side } from "./models/Side.model";
+import { Modification } from "./models/Modification.model";
+// Service.setBaseUrl("http://localhost:8080");
+Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com/");
 
 class MainStore {
   categories = new Store(Category);
   items = new Store(Item);
   locations = new Store(Location);
   users = new Store(User);
+  sides = new Store(Side);
+  modifications = new Store(Modification);
   user: any = null;
 
   cart: any[] = [];
@@ -32,6 +36,8 @@ class MainStore {
     await this.categories.initLoad();
     await this.items.initLoad();
     await this.locations.initLoad();
+    await this.sides.initLoad();
+    await this.modifications.initLoad();
     console.log(this.categories.objects.length);
     const authToken = await AsyncStorage.getItem("Authorization");
     this.user = await AsyncStorage.getItem("user");
@@ -79,6 +85,11 @@ class MainStore {
     await AsyncStorage.removeItem("user");
     this.isLoggedIn = false;
     this.isLoggingIn = false;
+  }
+
+  async getCoords(address: string) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAvHC8FkiK6As9_tmLBrWz3NbTtJoQO6Uk`;
+    return await Service.get(url);
   }
 }
 

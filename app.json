@@ -18,10 +18,13 @@
     "facebookScheme": "fb311115876793749",
     "facebookAppId": "311115876793749",
     "facebookDisplayName": "Restaurant",
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "example.expo.restaurant",
+      "userInterfaceStyle": "light",
       "config": {
         "googleSignIn": {
           "reservedClientId": "490764248540-i5fv9ltt0v3lc8hbvlrsftlcrhivder9.apps.googleusercontent.com"
@@ -29,6 +32,7 @@
       }
     },
     "android": {
+      "userInterfaceStyle": "light",
       "package": "example.expo.restaurant"
     },
     "web": {

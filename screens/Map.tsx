@@ -1,18 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MapView, { Marker, AnimatedRegion } from "react-native-maps";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { SearchBar, Button, Icon } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
 
 export default function Map() {
-  const { locations } = React.useContext(Main);
+  const store = React.useContext(Main);
+  const { locations } = store;
   const lat = 40.0339499;
   const long = -83.1125029;
 
   return (
     <View style={styles.container}>
       <View style={styles.mapStyle}>
-        <SearchBar
+        {/* <SearchBar
+          onChangeText={(a) => setAddress(a)}
+          value={address}
           placeholder="City, State or Zip Code"
           inputContainerStyle={{
             backgroundColor: "white",
@@ -34,7 +37,7 @@ export default function Map() {
           inputStyle={{
             fontSize: 12,
           }}
-        />
+        /> */}
         <MapView
           style={{ width: "100%", height: "100%" }}
           region={{
