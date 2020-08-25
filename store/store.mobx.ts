@@ -21,6 +21,7 @@ class MainStore {
   modifications = new Store(Modification);
   user: any = null;
 
+  @observable
   cart: any[] = [];
 
   isLoggingIn: boolean = false;

@@ -4,6 +4,7 @@ import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { View } from "../components/Themed";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { observer } from "mobx-react";
 // import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 // import { requestOneTimePayment } from "react-native-paypal";
 
@@ -28,7 +29,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 //   });
 // }
 
-export default function () {
+export default observer(() => {
   const store = React.useContext(Main);
   const costs = store.cart.map((v) => v.cost);
   const items: any = {};
@@ -47,82 +48,87 @@ export default function () {
     <View style={{ padding: 10 }}>
       <Text h4>Your cart</Text>
       <Space />
-      <View style={{ justifyContent: "space-between", height: "90%" }}>
-        <View>
-          {Object.values(items).map((v: any, i: number) => (
-            <Card>
-              <View
-                style={{
-                  justifyContent: "space-between",
-                  flexDirection: "row",
-                }}
-              >
-                <View style={{ flexGrow: 2 }}>
-                  <Text>{v.item.name}</Text>
-                  <Text>x {v.total}</Text>
-                </View>
-                <View style={{ marginRight: 20 }}>
-                  <Text></Text>
-                  <Text>${(v.item.cost * v.total).toFixed(2)}</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={() => store.removeFromcart(v)}
+      {!!store.cart.length ? (
+        <View style={{ justifyContent: "space-between", height: "90%" }}>
+          <View>
+            {Object.values(items).map((v: any, i: number) => (
+              <Card>
+                <View
                   style={{
-                    padding: 20,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#eee",
+                    justifyContent: "space-between",
+                    flexDirection: "row",
                   }}
                 >
-                  <Icon
-                    type="font-awesome-5"
-                    name="trash"
-                    size={15}
-                    color="#999"
-                  />
-                </TouchableOpacity>
-              </View>
-            </Card>
-          ))}
-        </View>
-        <View style={{ padding: 10 }}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              padding: 20,
-            }}
-          >
-            <Text style={{ fontSize: 20 }}>Total</Text>
-            <Text style={{ fontSize: 20 }}>${total}</Text>
+                  <View style={{ flexGrow: 2 }}>
+                    <Text>{v.item.name}</Text>
+                    <Text>x {v.total}</Text>
+                  </View>
+                  <View style={{ marginRight: 20 }}>
+                    <Text></Text>
+                    <Text>${(v.item.cost * v.total).toFixed(2)}</Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => store.removeFromCart(v)}
+                    style={{
+                      padding: 20,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#eee",
+                    }}
+                  >
+                    <Icon
+                      type="font-awesome-5"
+                      name="trash"
+                      size={15}
+                      color="#999"
+                    />
+                  </TouchableOpacity>
+                </View>
+              </Card>
+            ))}
           </View>
-
-          <BottomSheet
-            list={[
-              {
-                title: "Pay by PayPal",
-                leftIcon: {
-                  name: "paypal",
-                  type: "font-awesome-5",
-                  color: "#009cde",
+          <View style={{ padding: 10 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                padding: 20,
+              }}
+            >
+              <Text style={{ fontSize: 20 }}>Total</Text>
+              <Text style={{ fontSize: 20 }}>${total}</Text>
+            </View>
+            <BottomSheet
+              list={[
+                {
+                  title: "Pay by PayPal",
+                  leftIcon: {
+                    name: "paypal",
+                    type: "font-awesome-5",
+                    color: "#009cde",
+                  },
                 },
-              },
-              {
-                title: "Trips",
-                leftIcon: { name: "flight-takeoff" },
-              },
-              {
-                title: "Cancel",
-                leftIcon: { name: "close", color: "white" },
-                containerStyle: { backgroundColor: "red" },
-                titleStyle: { color: "white" },
-              },
-            ]}
-            cancelButtonIndex={2}
-            buttonProps={{ title: "Check out" }}
-          />
+                {
+                  title: "Trips",
+                  leftIcon: { name: "flight-takeoff" },
+                },
+                {
+                  title: "Cancel",
+                  leftIcon: { name: "close", color: "white" },
+                  containerStyle: { backgroundColor: "red" },
+                  titleStyle: { color: "white" },
+                },
+              ]}
+              cancelButtonIndex={2}
+              buttonProps={{ title: "Check out" }}
+            />
+          </View>
         </View>
-      </View>
+      ) : (
+        <View>
+          <Text>No items in cart</Text>
+        </View>
+      )}
     </View>
   );
-}
+});
