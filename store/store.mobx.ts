@@ -1,6 +1,6 @@
 import { Store, Service } from "mobx-store-model";
 import { createContext } from "react";
-import { observable } from "mobx";
+import { observable, computed } from "mobx";
 
 import { Category } from "./models/Category.model";
 import { Item } from "./models/Item.model";
@@ -28,6 +28,10 @@ class MainStore {
   sessionExpired: boolean = false;
   isLoggedIn: boolean = false;
   loginError: boolean = false;
+
+  cartTotal(): number {
+    return this.cart.map((v) => v.cost).reduce((a, b) => a + b) || 0;
+  }
 
   constructor() {
     this.getData();

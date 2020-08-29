@@ -5,31 +5,8 @@ import { Space } from "../components/Elements";
 import { View } from "../components/Themed";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { observer } from "mobx-react";
-// import { PaymentsStripe as Stripe } from "expo-payments-stripe";
-// import { requestOneTimePayment } from "react-native-paypal";
 
-// async function paypalPayment() {
-//   const {
-//     nonce,
-//     payerId,
-//     email,
-//     firstName,
-//     lastName,
-//     phone,
-//   } = await requestOneTimePayment(token, {
-//     amount: "5", // required
-//     // any PayPal supported currency (see here: https://developer.paypal.com/docs/integration/direct/rest/currency-codes/#paypal-account-payments)
-//     currency: "GBP",
-//     // any PayPal supported locale (see here: https://braintree.github.io/braintree_ios/Classes/BTPayPalRequest.html#/c:objc(cs)BTPayPalRequest(py)localeCode)
-//     localeCode: "en_GB",
-//     shippingAddressRequired: false,
-//     userAction: "commit", // display 'Pay Now' on the PayPal review page
-//     // one of 'authorize', 'sale', 'order'. defaults to 'authorize'. see details here: https://developer.paypal.com/docs/api/payments/v1/#payment-create-request-body
-//     intent: "authorize",
-//   });
-// }
-
-export default observer(() => {
+export default observer(({ navigation }) => {
   const store = React.useContext(Main);
   const costs = store.cart.map((v) => v.cost);
   const items: any = {};
@@ -98,6 +75,10 @@ export default observer(() => {
               <Text style={{ fontSize: 20 }}>Total</Text>
               <Text style={{ fontSize: 20 }}>${total}</Text>
             </View>
+            <Button
+              title="Proceed to checkout"
+              onPress={() => navigation.navigate("Checkout")}
+            />
           </View>
         </View>
       ) : (

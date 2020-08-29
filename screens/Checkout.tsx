@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text } from "../components/Themed";
+import { Button } from "react-native-elements";
+import { PaymentsStripe as Stripe } from "expo-payments-stripe";
+import {
+  CreditCardInput,
+  LiteCreditCardInput,
+} from "react-native-credit-card-input";
+import { Service } from "mobx-store-model/lib";
+import { Main } from "../store/Store.mobx";
+
+Service.setBearerToken("pk_test_SxLXrzbxiAiTwnt8qiOW1agS");
+const getCreditCardToken = async (cc, total) => {
+  if (!cc.valid) return;
+  const data = cc.values;
+
+  const card = {
+    "card[number]": data.number.replace(/ /g, ""),
+    "card[exp_month]": data.expiry.split("/")[0],
+    "card[exp_year]": data.expiry.split("/")[1],
+    "card[cvc]": data.cvc,
+  };
+
+  Service.ajax.defaults.headers["Content-Type"] =
+    "application/x-www-form-urlencoded";
+  const d = await Service.post(
+    "https://api.stripe.com/v1/tokens",
+    Object.keys(card)
+      .map((key) => key + "=" + card[key])
+      .join("&")
+  );
+
+  const token = d.id;
+  Service.ajax.defaults.headers["Content-Type"] = "application/json";
+  const body = await Service.post("http://localhost:8080/user/checkout", {
+    token,
+    total,
+  });
+};
 
 export default function Checkout() {
+  const store = useContext(Main);
+  const total = store.cartTotal();
+  console.log(store.cartTotal());
+
   return (
-    <View>
-      <Text>Checkout</Text>
+    <View style={{ height: "100%", justifyContent: "space-between" }}>
+      <CreditCardInput
+        autoFocus
+        onChange={(a) => getCreditCardToken(a, total)}
+      />
+      <View style={{ padding: 20 }}>
+        <Button title="Pay" />
+      </View>
     </View>
   );
 }
