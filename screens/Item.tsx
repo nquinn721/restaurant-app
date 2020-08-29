@@ -37,7 +37,7 @@ export default observer(({ navigation }: any) => {
       <View>
         <Text>Modifiers</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {modifications.objects.map((a) => (
+          {modifiers.map((a) => (
             <View>
               <CheckBox
                 key={a.id}

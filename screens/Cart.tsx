@@ -8,13 +8,8 @@ import { observer } from "mobx-react";
 
 export default observer(({ navigation }) => {
   const store = React.useContext(Main);
-  const costs = store.cart.map((v) => v.cost);
   const items: any = {};
-  let total = 0;
-
-  if (costs.length) {
-    total = costs.reduce((a, b) => a + b).toFixed(2);
-  }
+  const total = store.cartTotal().toFixed(2);
 
   store.cart.map((v) => {
     if (!items[v.name]) items[v.name] = { item: v, total: 1 };

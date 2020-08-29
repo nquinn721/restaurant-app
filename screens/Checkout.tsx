@@ -9,7 +9,6 @@ import {
 import { Service } from "mobx-store-model/lib";
 import { Main } from "../store/Store.mobx";
 
-Service.setBearerToken("pk_test_SxLXrzbxiAiTwnt8qiOW1agS");
 const getCreditCardToken = async (cc, total) => {
   if (!cc.valid) return;
   const data = cc.values;
@@ -21,17 +20,18 @@ const getCreditCardToken = async (cc, total) => {
     "card[cvc]": data.cvc,
   };
 
-  Service.ajax.defaults.headers["Content-Type"] =
-    "application/x-www-form-urlencoded";
   const d = await Service.post(
     "https://api.stripe.com/v1/tokens",
     Object.keys(card)
       .map((key) => key + "=" + card[key])
-      .join("&")
+      .join("&"),
+    {
+      Authorization: "Bearer pk_test_SxLXrzbxiAiTwnt8qiOW1agS",
+      "Content-Type": "application/x-www-form-urlencoded",
+    }
   );
 
   const token = d.id;
-  Service.ajax.defaults.headers["Content-Type"] = "application/json";
   const body = await Service.post("http://localhost:8080/user/checkout", {
     token,
     total,

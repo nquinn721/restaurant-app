@@ -38,17 +38,18 @@ class MainStore {
   }
 
   async getData() {
-    await this.categories.initLoad();
-    await this.items.initLoad();
-    await this.locations.initLoad();
-    await this.sides.initLoad();
-    await this.modifications.initLoad();
-    console.log(this.categories.objects.length);
+    await this.categories.refreshData();
+    await this.items.refreshData();
+    await this.locations.refreshData();
+    await this.sides.refreshData();
+    await this.modifications.refreshData();
     const authToken = await AsyncStorage.getItem("Authorization");
     this.user = await AsyncStorage.getItem("user");
     this.user = JSON.parse(this.user);
+    console.log(this.categories.objects);
+
     if (authToken) {
-      Service.ajax.defaults.headers.common.Authorization = `Bearer ${authToken}`;
+      Service.setBearerToken(authToken);
       Service.isLoggedIn = true;
     }
   }
