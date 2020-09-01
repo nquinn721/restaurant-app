@@ -24,7 +24,7 @@ export default function Home({ navigation }: any) {
       setData(categories.objects);
     }
     getData();
-  }, []);
+  }, [categories.objects]);
 
   return (
     <Main.Provider value={store}>

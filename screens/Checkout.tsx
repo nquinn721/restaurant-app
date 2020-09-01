@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { View, Text } from "../components/Themed";
-import { Button } from "react-native-elements";
+import { Button, Input } from "react-native-elements";
 import { PaymentsStripe as Stripe } from "expo-payments-stripe";
 import {
   CreditCardInput,
@@ -49,8 +49,11 @@ export default function Checkout() {
         autoFocus
         onChange={(a) => getCreditCardToken(a, total)}
       />
+      <View>
+        <Input placeholder="Name on card" />
+      </View>
       <View style={{ padding: 20 }}>
-        <Button title="Pay" />
+        <Button title="Pay" onPress={store.createOrder.bind(store)} />
       </View>
     </View>
   );

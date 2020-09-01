@@ -5,9 +5,11 @@ import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { observer } from "mobx-react";
 import { Modification } from "../store/models/Modification.model";
+import { Store } from "mobx-store-model/lib";
 
 export default observer(({ navigation }: any) => {
-  const { items, cart, sides, modifications } = useContext(Main);
+  const store = useContext(Main);
+  const { items, sides, modifications } = store;
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
 
@@ -70,7 +72,11 @@ export default observer(({ navigation }: any) => {
         onPress={() => {
           setOverlay(true);
 
-          cart.push(current);
+          store.addToOrder({
+            item: current.id,
+            mods: modifiers.filter((v) => v.checked),
+            sides: sides.objects.filter((v) => v.checked),
+          });
           setTimeout(() => {
             items.resetCurrent();
             navigation.popToTop();

@@ -9,8 +9,9 @@ import { User } from "./models/User.model";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Side } from "./models/Side.model";
 import { Modification } from "./models/Modification.model";
+import { Order, OrderItem } from "./models/Order.model";
 // Service.setBaseUrl("http://localhost:8080");
-Service.setBaseUrl("https://elevated-column-284822.ue.r.appspot.com/");
+Service.setBaseUrl("https://restaurant-server-288018.ue.r.appspot.com/");
 
 class MainStore {
   categories = new Store(Category);
@@ -96,6 +97,26 @@ class MainStore {
   async getCoords(address: string) {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAvHC8FkiK6As9_tmLBrWz3NbTtJoQO6Uk`;
     return await Service.get(url);
+  }
+  addToOrder(item: OrderItem) {
+    const order = new Order();
+    order.items = [item];
+    console.log("0000");
+    console.log("0000");
+    console.log("0000");
+    console.log("0000");
+    console.log("0000");
+    console.log("0000");
+    console.log(order);
+
+    this.cart.push(order);
+  }
+  async createOrder() {
+    await Promise.all(
+      this.cart.map(async (v: Order) => {
+        v.save();
+      })
+    );
   }
 }
 
