@@ -12,6 +12,7 @@ export default observer(({ navigation }: any) => {
   const { items, sides, modifications } = store;
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
+  console.log(modifications.objects.map((v) => v.item.id));
 
   const modifiers = modifications.objects.filter(
     (v: Modification) => v.item.id === current.id
@@ -40,7 +41,7 @@ export default observer(({ navigation }: any) => {
         <Text>Modifiers</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {modifiers.map((a) => (
-            <View>
+            <View key={a.id}>
               <CheckBox
                 key={a.id}
                 title={a.name}
@@ -55,7 +56,7 @@ export default observer(({ navigation }: any) => {
         <Text>Sides</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {sides.objects.map((a) => (
-            <View>
+            <View key={a.id}>
               <CheckBox
                 key={a.id}
                 title={a.name}
