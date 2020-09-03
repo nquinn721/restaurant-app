@@ -95,6 +95,20 @@ class MainStore {
     this.sides.objects.forEach((v) => (v.checked = false));
     this.modifications.objects.forEach((v) => (v.checked = false));
   }
+
+  getOrderedModifiers(item: Item) {
+    const mods: any = {};
+    const modifiers = this.modifications.objects.filter(
+      (v: Modification) => v.item.id === item.id
+    );
+
+    modifiers.forEach((v: Modification) => {
+      if (!mods[v.type]) mods[v.type] = [];
+      mods[v.type].push(v);
+    });
+
+    return mods;
+  }
 }
 
 export const Main = createContext(new MainStore());

@@ -27,7 +27,7 @@ export default observer(({ navigation }) => {
                 >
                   <View style={{ flexGrow: 2 }}>
                     <Text>
-                      {v.item.name} x ${v.item.cost.toFixed(2)}
+                      {v.item.name} x ${v.item.COST}
                     </Text>
 
                     <View style={{ marginTop: 20 }}>

@@ -3,10 +3,13 @@ import { observable } from "mobx";
 
 export class Modification extends Model {
   route: string = "modification";
+  getParams: any = { join: "item||id" };
   item: any;
-  @observable
-  checked: boolean = false;
-  constructGetParams() {
-    return super.constructGetParams({ join: "item||id" });
+  cost = 0;
+  type = "";
+  @observable checked: boolean = false;
+
+  get COST() {
+    return this.cost && `$${this.cost.toFixed(2)}`;
   }
 }

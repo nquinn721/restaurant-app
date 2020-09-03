@@ -27,7 +27,7 @@ export default function ItemList({ navigation, route }: any) {
                 }}
               >
                 <Text>{item.name}</Text>
-                <Text style={{ color: "#777" }}>${item.COST()}</Text>
+                <Text style={{ color: "#777" }}>{item.COST}</Text>
               </View>
             }
             bottomDivider

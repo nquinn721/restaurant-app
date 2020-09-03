@@ -20,7 +20,7 @@ const OVERLAY = (overlay, setOverlay, order) => {
         {!!order.sides.length && <Text style={{ marginTop: 20 }}>Sides:</Text>}
         {order.sides.map((v) => (
           <Text style={{ fontWeight: "600", paddingLeft: 20 }}>
-            {v.name} ${v.cost}
+            {v.name} {v.COST}
           </Text>
         ))}
         <Text style={{ marginTop: 20, color: "#999" }}>Added to the cart</Text>
@@ -36,10 +36,7 @@ export default observer(({ navigation }: any) => {
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
   const [order, setOrder] = useState({ item: current, mods: [], sides: [] });
-
-  const modifiers = modifications.objects.filter(
-    (v: Modification) => v.item.id === current.id
-  );
+  const modifiers = store.getOrderedModifiers(current);
   return (
     <View
       style={{ height: "100%", padding: 10, justifyContent: "space-between" }}
@@ -53,23 +50,27 @@ export default observer(({ navigation }: any) => {
         <Text style={{ color: "#444" }}>{current.description}</Text>
       </View>
       <View>
-        <Text>Modifiers</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {modifiers.map((a) => (
-            <View key={a.id} style={{ width: "90%" }}>
-              <CheckBox
-                key={a.id}
-                title={a.name + " " + (a.cost || "")}
-                containerStyle={{ width: "100%" }}
-                onPress={() => {
-                  a.checked = !a.checked;
-                  setOrder({
-                    ...order,
-                    mods: modifiers.filter((v) => v.checked),
-                  });
-                }}
-                checked={a.checked}
-              />
+          {Object.keys(modifiers).map((l) => (
+            <View>
+              <Text>{l}</Text>
+              {modifiers[l].map((a) => (
+                <View key={a.id} style={{ width: "90%" }}>
+                  <CheckBox
+                    key={a.id}
+                    title={a.name + " " + (a.COST || "")}
+                    containerStyle={{ width: "100%" }}
+                    onPress={() => {
+                      a.checked = !a.checked;
+                      setOrder({
+                        ...order,
+                        mods: modifications.objects.filter((v) => v.checked),
+                      });
+                    }}
+                    checked={a.checked}
+                  />
+                </View>
+              ))}
             </View>
           ))}
         </View>
@@ -82,7 +83,7 @@ export default observer(({ navigation }: any) => {
               <CheckBox
                 containerStyle={{ width: "100%" }}
                 key={a.id}
-                title={a.name + " " + `$${a.cost}`}
+                title={a.name + " " + a.COST}
                 onPress={() => {
                   a.checked = !a.checked;
                   setOrder({
