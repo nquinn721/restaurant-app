@@ -89,8 +89,7 @@ class MainStore {
     return await Service.get(url);
   }
   addToOrder(item: OrderItem) {
-    item = new OrderItem(item);
-    this.cart.items.push(item);
+    this.cart.items.add(item);
 
     this.sides.objects.forEach((v) => (v.checked = false));
     this.modifications.objects.forEach((v) => (v.checked = false));

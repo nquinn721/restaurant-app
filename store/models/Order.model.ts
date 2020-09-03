@@ -1,4 +1,4 @@
-import { Model } from "mobx-store-model/lib";
+import { Model, Store } from "mobx-store-model/lib";
 import { observable } from "mobx";
 
 export class OrderItem extends Model {
@@ -26,7 +26,7 @@ export class OrderItem extends Model {
 export class Order extends Model {
   route: string = "order";
 
-  @observable items: OrderItem[] = [];
+  items = new Store(OrderItem, "orderitems");
 
   convertForSave() {
     const data = {
@@ -44,7 +44,7 @@ export class Order extends Model {
   }
 
   total() {
-    return this.items.reduce((a: any, b: any) => a.total() + b.total());
+    return this.items.objects.reduce((a: any, b: any) => a.total() + b.total());
   }
 
   removeItem(item: OrderItem) {
