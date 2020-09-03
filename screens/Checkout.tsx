@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text } from "../components/Themed";
 import { Button, Input } from "react-native-elements";
 import { PaymentsStripe as Stripe } from "expo-payments-stripe";
@@ -9,7 +9,7 @@ import {
 import { Service } from "mobx-store-model/lib";
 import { Main } from "../store/Store.mobx";
 
-const getCreditCardToken = async (cc, total) => {
+const getCreditCardToken = async (cc) => {
   if (!cc.valid) return;
   const data = cc.values;
 
@@ -32,6 +32,11 @@ const getCreditCardToken = async (cc, total) => {
   );
 
   const token = d.id;
+
+  return token;
+};
+
+const pay = async (token, total) => {
   const body = await Service.post("http://localhost:8080/user/checkout", {
     token,
     total,
@@ -40,20 +45,27 @@ const getCreditCardToken = async (cc, total) => {
 
 export default function Checkout() {
   const store = useContext(Main);
-  const total = store.cartTotal();
-  console.log(store.cartTotal());
+  const total = store.cart.total();
+  const [token, setToken] = useState(false);
 
   return (
     <View style={{ height: "100%", justifyContent: "space-between" }}>
       <CreditCardInput
         autoFocus
-        onChange={(a) => getCreditCardToken(a, total)}
+        onChange={async (a) => setToken(await getCreditCardToken(a))}
       />
       <View>
         <Input placeholder="Name on card" />
       </View>
       <View style={{ padding: 20 }}>
-        <Button title="Pay" onPress={store.createOrder.bind(store)} />
+        <Button
+          disabled={token}
+          title="Pay"
+          onPress={async () => {
+            await pay(token, total);
+            store.cart.save();
+          }}
+        />
       </View>
     </View>
   );

@@ -30,7 +30,7 @@ export default function HomeNavigator({ navigation }: any) {
           },
           headerTintColor: "pink",
           headerRight: () => (
-            <View style={{ backgroundColor: "rgba(0,0,0,0)" }}>
+            <View style={{ backgroundColor: "rgba(0,0,0,0)", marginRight: 20 }}>
               <Icon
                 name="md-cart"
                 type="ionicon"
@@ -38,10 +38,10 @@ export default function HomeNavigator({ navigation }: any) {
                 style={{ marginRight: 20 }}
                 onPress={() => navigation.navigate("Cart")}
               />
-              {!!cart.length && (
+              {!!cart.items.length && (
                 <Badge
                   status="error"
-                  value={cart.length}
+                  value={cart.items.length}
                   containerStyle={{
                     position: "absolute",
                     bottom: -4,

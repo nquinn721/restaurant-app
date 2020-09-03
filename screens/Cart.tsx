@@ -3,28 +3,22 @@ import { Text, Card, Button, Icon, BottomSheet } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { View } from "../components/Themed";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import { observer } from "mobx-react";
 
 export default observer(({ navigation }) => {
   const store = React.useContext(Main);
-  const items: any = {};
-  const total = store.cartTotal().toFixed(2);
-
-  store.cart.map((v) => {
-    if (!items[v.name]) items[v.name] = { item: v, total: 1 };
-    else items[v.name].total++;
-  });
+  const { cart } = store;
 
   return (
     <View style={{ padding: 10 }}>
       <Text h4>Your cart</Text>
       <Space />
-      {!!store.cart.length ? (
+      {!!cart.items.length ? (
         <View style={{ justifyContent: "space-between", height: "90%" }}>
-          <View>
-            {Object.values(items).map((v: any, i: number) => (
-              <Card>
+          <ScrollView>
+            {cart.items.map((v: any, i: number) => (
+              <Card key={i}>
                 <View
                   style={{
                     justifyContent: "space-between",
@@ -32,15 +26,33 @@ export default observer(({ navigation }) => {
                   }}
                 >
                   <View style={{ flexGrow: 2 }}>
-                    <Text>{v.item.name}</Text>
-                    <Text>x {v.total}</Text>
+                    <Text>
+                      {v.item.name} x ${v.item.cost.toFixed(2)}
+                    </Text>
+
+                    <View style={{ marginTop: 20 }}>
+                      {v.mods.map((a: any, j: number) => (
+                        <View key={j}>
+                          <Text>{a.name}</Text>
+                        </View>
+                      ))}
+                    </View>
+                    <View style={{ marginTop: 20 }}>
+                      {v.sides.map((a: any, j: number) => (
+                        <View key={j}>
+                          <Text>
+                            {a.name} x ${a.cost}
+                          </Text>
+                        </View>
+                      ))}
+                    </View>
                   </View>
                   <View style={{ marginRight: 20 }}>
                     <Text></Text>
-                    <Text>${(v.item.cost * v.total).toFixed(2)}</Text>
+                    <Text>${v.total().toFixed(2)}</Text>
                   </View>
                   <TouchableOpacity
-                    onPress={() => store.removeFromCart(v)}
+                    onPress={() => store.cart.removeItem(v)}
                     style={{
                       padding: 20,
                       alignItems: "center",
@@ -58,7 +70,7 @@ export default observer(({ navigation }) => {
                 </View>
               </Card>
             ))}
-          </View>
+          </ScrollView>
           <View style={{ padding: 10 }}>
             <View
               style={{
@@ -68,7 +80,7 @@ export default observer(({ navigation }) => {
               }}
             >
               <Text style={{ fontSize: 20 }}>Total</Text>
-              <Text style={{ fontSize: 20 }}>${total}</Text>
+              <Text style={{ fontSize: 20 }}>${store.cart.total()}</Text>
             </View>
             <Button
               title="Proceed to checkout"

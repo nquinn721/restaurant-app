@@ -5,14 +5,37 @@ import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { observer } from "mobx-react";
 import { Modification } from "../store/models/Modification.model";
-import { Store } from "mobx-store-model/lib";
+
+const OVERLAY = (overlay, setOverlay, order) => {
+  return (
+    <Overlay isVisible={overlay} onBackdropPress={() => setOverlay(false)}>
+      <View style={{ padding: 10, paddingHorizontal: 40 }}>
+        <Text style={{ fontWeight: "800", marginTop: 20, marginBottom: 20 }}>
+          {order.item.name}
+        </Text>
+        {!!order.mods.length && <Text>Mods:</Text>}
+        {order.mods.map((v) => (
+          <Text style={{ fontWeight: "600", paddingLeft: 20 }}>{v.name}</Text>
+        ))}
+        {!!order.sides.length && <Text style={{ marginTop: 20 }}>Sides:</Text>}
+        {order.sides.map((v) => (
+          <Text style={{ fontWeight: "600", paddingLeft: 20 }}>
+            {v.name} ${v.cost}
+          </Text>
+        ))}
+        <Text style={{ marginTop: 20, color: "#999" }}>Added to the cart</Text>
+      </View>
+    </Overlay>
+  );
+};
 
 export default observer(({ navigation }: any) => {
   const store = useContext(Main);
   const { items, sides, modifications } = store;
+  const [savingOrder, setSavingOrder] = useState(false);
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
-  console.log(modifications.objects.map((v) => v.item.id));
+  const [order, setOrder] = useState({ item: current, mods: [], sides: [] });
 
   const modifiers = modifications.objects.filter(
     (v: Modification) => v.item.id === current.id
@@ -21,15 +44,7 @@ export default observer(({ navigation }: any) => {
     <View
       style={{ height: "100%", padding: 10, justifyContent: "space-between" }}
     >
-      {overlay && (
-        <Overlay isVisible={overlay}>
-          <Text>
-            You've added{" "}
-            <Text style={{ fontWeight: "800" }}>{current.name}</Text> to the
-            cart
-          </Text>
-        </Overlay>
-      )}
+      {OVERLAY(overlay, setOverlay, order)}
       <View>
         <Text h4 style={{ textAlign: "center" }}>
           {current.name}
@@ -41,11 +56,18 @@ export default observer(({ navigation }: any) => {
         <Text>Modifiers</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {modifiers.map((a) => (
-            <View key={a.id}>
+            <View key={a.id} style={{ width: "90%" }}>
               <CheckBox
                 key={a.id}
-                title={a.name}
-                onPress={() => (a.checked = !a.checked)}
+                title={a.name + " " + (a.cost || "")}
+                containerStyle={{ width: "100%" }}
+                onPress={() => {
+                  a.checked = !a.checked;
+                  setOrder({
+                    ...order,
+                    mods: modifiers.filter((v) => v.checked),
+                  });
+                }}
                 checked={a.checked}
               />
             </View>
@@ -56,11 +78,18 @@ export default observer(({ navigation }: any) => {
         <Text>Sides</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {sides.objects.map((a) => (
-            <View key={a.id}>
+            <View key={a.id} style={{ width: "90%" }}>
               <CheckBox
+                containerStyle={{ width: "100%" }}
                 key={a.id}
-                title={a.name}
-                onPress={() => (a.checked = !a.checked)}
+                title={a.name + " " + `$${a.cost}`}
+                onPress={() => {
+                  a.checked = !a.checked;
+                  setOrder({
+                    ...order,
+                    sides: sides.objects.filter((v) => v.checked),
+                  });
+                }}
                 checked={a.checked}
               />
             </View>
@@ -72,12 +101,8 @@ export default observer(({ navigation }: any) => {
         title="Add to cart"
         onPress={() => {
           setOverlay(true);
-
-          store.addToOrder({
-            item: current.id,
-            mods: modifiers.filter((v) => v.checked),
-            sides: sides.objects.filter((v) => v.checked),
-          });
+          setSavingOrder(true);
+          store.addToOrder(order);
           setTimeout(() => {
             items.resetCurrent();
             navigation.popToTop();

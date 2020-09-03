@@ -23,16 +23,12 @@ class MainStore {
   user: any = null;
 
   @observable
-  cart: any[] = [];
+  cart: Order = new Order();
 
   isLoggingIn: boolean = false;
   sessionExpired: boolean = false;
   isLoggedIn: boolean = false;
   loginError: boolean = false;
-
-  cartTotal(): number {
-    return this.cart.map((v) => v.cost).reduce((a, b) => a + b) || 0;
-  }
 
   constructor() {
     this.getData();
@@ -47,17 +43,11 @@ class MainStore {
     const authToken = await AsyncStorage.getItem("Authorization");
     this.user = await AsyncStorage.getItem("user");
     this.user = JSON.parse(this.user);
-    console.log(this.categories.objects);
 
     if (authToken) {
       Service.setBearerToken(authToken);
       Service.isLoggedIn = true;
     }
-  }
-
-  removeFromCart(item: any) {
-    this.cart.splice(this.cart.indexOf(item), 1);
-    console.log("items left", this.cart.length);
   }
 
   async login(creds: object) {
@@ -99,24 +89,11 @@ class MainStore {
     return await Service.get(url);
   }
   addToOrder(item: OrderItem) {
-    const order = new Order();
-    order.items = [item];
-    console.log("0000");
-    console.log("0000");
-    console.log("0000");
-    console.log("0000");
-    console.log("0000");
-    console.log("0000");
-    console.log(order);
+    item = new OrderItem(item);
+    this.cart.items.push(item);
 
-    this.cart.push(order);
-  }
-  async createOrder() {
-    await Promise.all(
-      this.cart.map(async (v: Order) => {
-        v.save();
-      })
-    );
+    this.sides.objects.forEach((v) => (v.checked = false));
+    this.modifications.objects.forEach((v) => (v.checked = false));
   }
 }
 
