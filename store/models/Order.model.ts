@@ -1,17 +1,17 @@
-import { Model, Store } from "mobx-store-model/lib";
+import { Model } from "mobx-store-model/lib";
 import { observable } from "mobx";
 
-export class OrderItem extends Model {
+export class OrderItem {
   guid: string = Date.now() + "";
   item: any = {};
   sides?: any = [];
   mods?: any = [];
   objectKey = "guid";
+
   constructor(data: any) {
-    super();
     Object.assign(this, data);
-    console.log(this);
   }
+
   total() {
     let total = 0;
     total += parseFloat(this.item.cost);
@@ -26,7 +26,8 @@ export class OrderItem extends Model {
 export class Order extends Model {
   route: string = "order";
 
-  items = new Store(OrderItem, "orderitems");
+  @observable items: OrderItem[] = [];
+  payment: any = {};
 
   convertForSave() {
     const data = {
@@ -38,16 +39,18 @@ export class Order extends Model {
     };
 
     const d = super.convertForSave(data);
-    console.log(d);
 
     return d;
   }
 
   total() {
-    return this.items.objects.reduce((a: any, b: any) => a.total() + b.total());
+    let total = 0;
+    this.items.forEach((v) => (total += v?.total()));
+
+    return total.toFixed(2);
   }
 
   removeItem(item: OrderItem) {
-    this.items.remove(item);
+    this.items = this.items.filter((v) => v.id === item.id);
   }
 }

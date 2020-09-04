@@ -35,7 +35,7 @@
     "expo-web-browser": "~8.3.1",
     "mobx": "^5.15.5",
     "mobx-react": "^6.2.5",
-    "mobx-store-model": "^0.7.25",
+    "mobx-store-model": "^0.7.29",
     "react": "~16.11.0",
     "react-dom": "~16.11.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",

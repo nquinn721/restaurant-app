@@ -1,6 +1,6 @@
 import { Store, Service } from "mobx-store-model";
 import { createContext } from "react";
-import { observable, computed } from "mobx";
+import { observable, computed, toJS } from "mobx";
 
 import { Category } from "./models/Category.model";
 import { Item } from "./models/Item.model";
@@ -88,8 +88,9 @@ class MainStore {
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyAvHC8FkiK6As9_tmLBrWz3NbTtJoQO6Uk`;
     return await Service.get(url);
   }
-  addToOrder(item: OrderItem) {
-    this.cart.items.add(item);
+  addToOrder(item: any) {
+    const oi = new OrderItem(item);
+    this.cart.items.push(oi);
 
     this.sides.objects.forEach((v) => (v.checked = false));
     this.modifications.objects.forEach((v) => (v.checked = false));

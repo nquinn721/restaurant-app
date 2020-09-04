@@ -5653,10 +5653,10 @@ mobx-react@^6.2.5:
   dependencies:
     mobx-react-lite ">=2.0.6"
 
-mobx-store-model@^0.7.25:
-  version "0.7.25"
-  resolved "https://registry.yarnpkg.com/mobx-store-model/-/mobx-store-model-0.7.25.tgz#03fe7a1cf28c8e35ffdeea33532af92809651bf2"
-  integrity sha512-Z0AXIN2LPgarAJikurzy3CG4KQYftFIJRE1cSHSZxybSydBH925UPoPpdIqa5ZMgoy20Cf1wHOn0AjXts0HKuw==
+mobx-store-model@^0.7.29:
+  version "0.7.29"
+  resolved "https://registry.yarnpkg.com/mobx-store-model/-/mobx-store-model-0.7.29.tgz#5660b34f16e2ee1df4c4d08fc6fd7a36da5604f0"
+  integrity sha512-eqWWneZAbDGeiUn8P3CKgdX17Y/QC0Q9j5MRGjLELiK6xzQa0VNU4DAIHNBB8tRjtWSquV62DUNopVph9YLaIg==
   dependencies:
     axios "^0.19.2"
     localforage "^1.9.0"

@@ -27,7 +27,7 @@ export default observer(({ navigation }) => {
                 >
                   <View style={{ flexGrow: 2 }}>
                     <Text>
-                      {v.item.name} x ${v.item.COST}
+                      {v.item.name} x {v.item.COST}
                     </Text>
 
                     <View style={{ marginTop: 20 }}>
@@ -41,7 +41,7 @@ export default observer(({ navigation }) => {
                       {v.sides.map((a: any, j: number) => (
                         <View key={j}>
                           <Text>
-                            {a.name} x ${a.cost}
+                            {a.name} x {a.COST}
                           </Text>
                         </View>
                       ))}
@@ -49,7 +49,7 @@ export default observer(({ navigation }) => {
                   </View>
                   <View style={{ marginRight: 20 }}>
                     <Text></Text>
-                    <Text>${v.total().toFixed(2)}</Text>
+                    <Text>{v.COST}</Text>
                   </View>
                   <TouchableOpacity
                     onPress={() => store.cart.removeItem(v)}
