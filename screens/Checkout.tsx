@@ -38,6 +38,8 @@ const getCreditCardToken = async (cc) => {
 };
 
 const pay = async (token, total) => {
+  console.log(token, total);
+
   const body = await Service.post("http://localhost:8080/user/checkout", {
     token,
     total,
