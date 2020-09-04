@@ -4,7 +4,6 @@ import { Text, Button, Overlay, CheckBox } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { observer } from "mobx-react";
-import { Modification } from "../store/models/Modification.model";
 
 const OVERLAY = (overlay, setOverlay, order) => {
   return (
@@ -32,11 +31,13 @@ const OVERLAY = (overlay, setOverlay, order) => {
 export default observer(({ navigation }: any) => {
   const store = useContext(Main);
   const { items, sides, modifications } = store;
-  const [savingOrder, setSavingOrder] = useState(false);
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
   const [order, setOrder] = useState({ item: current, mods: [], sides: [] });
   const modifiers = store.getOrderedModifiers(current);
+  console.log(current);
+
+  if (!current.id) navigation.navigate("Home");
   return (
     <View
       style={{ height: "100%", padding: 10, justifyContent: "space-between" }}
@@ -52,7 +53,7 @@ export default observer(({ navigation }: any) => {
       <View>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {Object.keys(modifiers).map((l) => (
-            <View>
+            <View key={l.id}>
               <Text>{l}</Text>
               {modifiers[l].map((a) => (
                 <View key={a.id} style={{ width: "90%" }}>
@@ -102,11 +103,10 @@ export default observer(({ navigation }: any) => {
         title="Add to cart"
         onPress={() => {
           setOverlay(true);
-          setSavingOrder(true);
           store.addToOrder(order);
           setTimeout(() => {
             items.resetCurrent();
-            navigation.popToTop();
+            navigation.navigate("Home");
           }, 2000);
         }}
       />
