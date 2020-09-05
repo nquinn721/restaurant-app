@@ -8,18 +8,20 @@ import { Location } from "./models/Location.model";
 import { User } from "./models/User.model";
 import AsyncStorage from "@react-native-community/async-storage";
 import { Side } from "./models/Side.model";
-import { Modification } from "./models/Modification.model";
+import { Mod } from "./models/Mod";
 import { Order, OrderItem } from "./models/Order.model";
+import { ModType } from "./models/ModType.model";
 // Service.setBaseUrl("http://localhost:8080");
 Service.setBaseUrl("https://restaurant-server-288018.ue.r.appspot.com/");
 
-class MainStore {
+class MainMobx {
   categories = new Store(Category);
   items = new Store(Item);
   locations = new Store(Location);
   users = new Store(User);
   sides = new Store(Side);
-  modifications = new Store(Modification);
+  mods = new Store(Mod);
+  modTypes = new Store(ModType);
   user: any = null;
 
   @observable
@@ -39,7 +41,8 @@ class MainStore {
     await this.items.refreshData();
     await this.locations.refreshData();
     await this.sides.refreshData();
-    await this.modifications.refreshData();
+    await this.mods.refreshData();
+    await this.modTypes.refreshData();
     const authToken = await AsyncStorage.getItem("Authorization");
     this.user = await AsyncStorage.getItem("user");
     this.user = JSON.parse(this.user);
@@ -93,22 +96,23 @@ class MainStore {
     this.cart.items.push(oi);
 
     this.sides.objects.forEach((v) => (v.checked = false));
-    this.modifications.objects.forEach((v) => (v.checked = false));
+    this.mods.objects.forEach((v) => (v.checked = false));
   }
 
   getOrderedModifiers(item: Item) {
     const mods: any = {};
-    const modifiers = this.modifications.objects.filter(
-      (v: Modification) => v.item.id === item.id
+    const modifiers = this.mods.objects.filter(
+      (v: Mod) => v.item.id === item.id
     );
 
-    modifiers.forEach((v: Modification) => {
-      if (!mods[v.type]) mods[v.type] = [];
-      mods[v.type].push(v);
+    modifiers.forEach((v: Mod) => {
+      if (!mods[v.type.name]) mods[v.type.name] = [];
+      mods[v.type.name].push(v);
     });
 
     return mods;
   }
 }
 
-export const Main = createContext(new MainStore());
+export const MainStore = new MainMobx();
+export const Main = createContext(MainStore);

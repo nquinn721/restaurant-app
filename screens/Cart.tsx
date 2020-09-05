@@ -33,7 +33,9 @@ export default observer(({ navigation }) => {
                     <View style={{ marginTop: 20 }}>
                       {v.mods.map((a: any, j: number) => (
                         <View key={j}>
-                          <Text>{a.name}</Text>
+                          <Text>
+                            {a.name} {!!a.COST && "x " + a.COST}
+                          </Text>
                         </View>
                       ))}
                     </View>

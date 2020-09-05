@@ -4,6 +4,7 @@ import { Text, Button, Overlay, CheckBox } from "react-native-elements";
 import { Main } from "../store/Store.mobx";
 import { Space } from "../components/Elements";
 import { observer } from "mobx-react";
+import { ScrollView } from "react-native";
 
 const OVERLAY = (overlay, setOverlay, order) => {
   return (
@@ -30,12 +31,12 @@ const OVERLAY = (overlay, setOverlay, order) => {
 
 export default observer(({ navigation }: any) => {
   const store = useContext(Main);
-  const { items, sides, modifications } = store;
+  const { items, sides, mods } = store;
   const { current } = items;
   const [overlay, setOverlay] = useState(false);
   const [order, setOrder] = useState({ item: current, mods: [], sides: [] });
   const modifiers = store.getOrderedModifiers(current);
-  console.log(current);
+  console.log(modifiers);
 
   if (!current.id) navigation.navigate("Home");
   return (
@@ -43,17 +44,17 @@ export default observer(({ navigation }: any) => {
       style={{ height: "100%", padding: 10, justifyContent: "space-between" }}
     >
       {OVERLAY(overlay, setOverlay, order)}
-      <View>
+      <View style={{ marginBottom: 40 }}>
         <Text h4 style={{ textAlign: "center" }}>
           {current.name}
         </Text>
         <Space />
         <Text style={{ color: "#444" }}>{current.description}</Text>
       </View>
-      <View>
+      <ScrollView>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {Object.keys(modifiers).map((l) => (
-            <View key={l.id}>
+            <View key={l}>
               <Text>{l}</Text>
               {modifiers[l].map((a) => (
                 <View key={a.id} style={{ width: "90%" }}>
@@ -65,7 +66,7 @@ export default observer(({ navigation }: any) => {
                       a.checked = !a.checked;
                       setOrder({
                         ...order,
-                        mods: modifications.objects.filter((v) => v.checked),
+                        mods: mods.objects.filter((v) => v.checked),
                       });
                     }}
                     checked={a.checked}
@@ -75,8 +76,6 @@ export default observer(({ navigation }: any) => {
             </View>
           ))}
         </View>
-      </View>
-      <View>
         <Text>Sides</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           {sides.objects.map((a) => (
@@ -97,7 +96,7 @@ export default observer(({ navigation }: any) => {
             </View>
           ))}
         </View>
-      </View>
+      </ScrollView>
 
       <Button
         title="Add to cart"

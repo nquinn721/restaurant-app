@@ -50,7 +50,7 @@ export class Order extends Model {
     return total.toFixed(2);
   }
 
-  removeItem(item: OrderItem) {
-    this.items = this.items.filter((v) => v.id === item.id);
+  removeItem(item: any) {
+    this.items = this.items.filter((v: any) => v.id === item.id);
   }
 }
