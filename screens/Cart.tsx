@@ -91,8 +91,15 @@ export default observer(({ navigation }) => {
           </View>
         </View>
       ) : (
-        <View>
-          <Text>No items in cart</Text>
+        <View
+          style={{
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            paddingBottom: 100,
+          }}
+        >
+          <Text style={{ color: "#999" }}>No items in cart</Text>
         </View>
       )}
     </View>

@@ -51,6 +51,6 @@ export class Order extends Model {
   }
 
   removeItem(item: any) {
-    this.items = this.items.filter((v: any) => v.id === item.id);
+    this.items = this.items.filter((v: any) => v.guid !== item.guid);
   }
 }
