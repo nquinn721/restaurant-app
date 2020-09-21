@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "../components/Themed";
 import { Main } from "../store/Store.mobx";
-import { ListItem, Tile } from "react-native-elements";
+import { ListItem, Tile, Image } from "react-native-elements";
 import ScrollRefresh from "../components/ScrollRefresh";
 const images: any = {
   Burgers: require("../assets/images/burger.jpg"),
@@ -22,6 +22,7 @@ export default function Home({ navigation }: any) {
     async function getData() {
       await categories.refreshData();
       setData(categories.objects);
+      console.log(categories.objects[0].IMAGE);
     }
     getData();
   }, []);
@@ -30,19 +31,39 @@ export default function Home({ navigation }: any) {
     <Main.Provider value={store}>
       {categories.fetchFailed && <Text>Failed to get data</Text>}
       <ScrollRefresh onRefresh={() => setRefreshing(true)}>
+        <Image
+          style={{ width: 40, height: 30 }}
+          source={{
+            uri:
+              "https://storage.cloud.google.com/restaurant-server/appetizer.jpg",
+          }}
+        />
+        <Image
+          style={{ width: 30, height: 30 }}
+          source={{
+            uri:
+              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==",
+          }}
+        />
         {data.map((v, i) => {
+          console.log(v.IMAGE);
+
           return (
-            <Tile
+            <View
               key={i}
-              imageSrc={images[v.name]}
-              overlayContainerStyle={{ backgroundColor: "rgba(0,0,0,0.7)" }}
-              title={v.name}
-              featured
-              onPress={() => {
-                categories.setCurrent(v);
-                navigation.navigate("ItemList");
-              }}
-            />
+              style={{ width: 300, height: 300, backgroundColor: "#999" }}
+            ></View>
+            // <Tile
+            //   key={i}
+            //   imageSrc={{ uri: v.IMAGE }}
+            //   overlayContainerStyle={{ backgroundColor: "rgba(0,0,0,0.7)" }}
+            //   title={v.name}
+            //   featured
+            //   onPress={() => {
+            //     categories.setCurrent(v);
+            //     navigation.navigate("ItemList");
+            //   }}
+            // />
             // <ListItem
             //   key={i}
             //   title={v.name}
