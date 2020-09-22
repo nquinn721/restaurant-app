@@ -5,7 +5,7 @@ export class Category extends Model {
   image: string = "";
 
   get IMAGE() {
-    return "https://restaurant-server-288018.ue.r.appspot.com/" + this.image;
+    return "https://storage.googleapis.com/restaurant-server/" + this.image;
     // return "https://storage.cloud.google.com/restaurant-server/" + this.image;
   }
 }
