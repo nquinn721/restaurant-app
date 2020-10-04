@@ -23,6 +23,7 @@ class MainMobx {
   mods = new Store(Mod);
   modTypes = new Store(ModType);
   user: any = null;
+  currentLocation: any = {};
 
   @observable
   cart: Order = new Order();
@@ -46,6 +47,9 @@ class MainMobx {
     const authToken = await AsyncStorage.getItem("Authorization");
     this.user = await AsyncStorage.getItem("user");
     this.user = JSON.parse(this.user);
+
+    if (this.locations.objects.length === 1)
+      this.currentLocation = this.locations.objects[0];
 
     if (authToken) {
       Service.setBearerToken(authToken);

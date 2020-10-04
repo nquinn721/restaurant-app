@@ -18,9 +18,7 @@
     "facebookScheme": "fb311115876793749",
     "facebookAppId": "311115876793749",
     "facebookDisplayName": "Restaurant",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "example.expo.restaurant",
@@ -33,7 +31,8 @@
     },
     "android": {
       "userInterfaceStyle": "light",
-      "package": "example.expo.restaurant"
+      "package": "example.expo.restaurant",
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
